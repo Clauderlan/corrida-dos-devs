@@ -1,5 +1,6 @@
 package com.c7.corrida.config;
 
+import com.c7.corrida.entities.User;
 import com.c7.corrida.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -15,7 +16,9 @@ public class TestConfig implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        
+
+        userRepository.save(new User(null,"Claudior", "9999","claudior@gmail.com",20,"VASCO"));
+
     }
 }
 
