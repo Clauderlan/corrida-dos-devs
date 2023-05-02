@@ -1,6 +1,8 @@
 package com.c7.corrida.config;
 
+import com.c7.corrida.entities.Material;
 import com.c7.corrida.entities.User;
+import com.c7.corrida.repositories.MaterialRepository;
 import com.c7.corrida.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -13,12 +15,21 @@ public class TestConfig implements CommandLineRunner {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private MaterialRepository materialRepository;
     @Override
     public void run(String... args) throws Exception {
 
-
         userRepository.save(new User(null,"Claudior", "9999","claudior@gmail.com",20,"VASCO"));
 
+        Material m1 = new Material(null, "VascoCourse","","","","");
+        Material m2 = new Material(null, "VascoCourse2","","","","");
+        Material m3 = new Material(null, "VascoCourse3","","","","");
+
+        materialRepository.save(m1);
+        materialRepository.save(m2);
+        materialRepository.save(m3);
     }
 }
 
