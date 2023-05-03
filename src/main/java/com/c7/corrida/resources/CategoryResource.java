@@ -1,8 +1,11 @@
 package com.c7.corrida.resources;
 
 import com.c7.corrida.entities.Category;
+import com.c7.corrida.services.CategoryService;
 import jakarta.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,7 +16,12 @@ import java.util.List;
 @Resource
 public class CategoryResource {
 
+    @Autowired
+    private CategoryService categoryService;
+
+    @GetMapping
     public ResponseEntity<List<Category>> findAll(){
-        return null;
+        List<Category> categories = categoryService.findAll();
+        return ResponseEntity.ok().body(categories);
     }
 }
