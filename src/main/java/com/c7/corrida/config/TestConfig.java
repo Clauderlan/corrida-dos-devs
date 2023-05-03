@@ -4,6 +4,7 @@ import com.c7.corrida.entities.Category;
 import com.c7.corrida.entities.Challenge;
 import com.c7.corrida.entities.Material;
 import com.c7.corrida.entities.User;
+import com.c7.corrida.entities.enums.CategoryRule;
 import com.c7.corrida.repositories.CategoryRepository;
 import com.c7.corrida.repositories.ChallengeRepository;
 import com.c7.corrida.repositories.MaterialRepository;
@@ -44,7 +45,7 @@ public class TestConfig implements CommandLineRunner {
         Challenge c1 = new Challenge(null, "VASCO","","", Instant.now(),"",20);
         challengeRepository.save(c1);
 
-        Category cc1 = new Category(null, 1, "Admin");
+        Category cc1 = new Category(null, CategoryRule.ADMIN, "Admin");
         categoryRepository.save(cc1);
     }
 }

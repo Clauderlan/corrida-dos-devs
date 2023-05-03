@@ -1,5 +1,6 @@
 package com.c7.corrida.entities;
 
+import com.c7.corrida.entities.enums.CategoryRule;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -17,9 +18,9 @@ public class Category implements Serializable {
 
     public Category(){}
 
-    public Category(Long id, Integer rule, String name) {
+    public Category(Long id, CategoryRule rule, String name) {
         this.id = id;
-        this.rule = rule;
+        setCategoryRule(rule);
         this.name = name;
     }
 
@@ -31,12 +32,14 @@ public class Category implements Serializable {
         this.id = id;
     }
 
-    public Integer getRule() {
-        return rule;
+    public CategoryRule getCategoryRule() {
+        return CategoryRule.valueOf(rule);
     }
 
-    public void setRule(Integer rule) {
-        this.rule = rule;
+    public void setCategoryRule(CategoryRule rule) {
+        if(rule != null){
+            this.rule = rule.getCode();
+        }
     }
 
     public String getName() {
