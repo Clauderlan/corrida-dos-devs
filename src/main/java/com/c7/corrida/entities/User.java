@@ -4,6 +4,8 @@ package com.c7.corrida.entities;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Objects;
 
 @Entity
@@ -18,6 +20,10 @@ public class User implements Serializable {
     private String email;
     private Integer rankPoints;
     private String bio;
+
+    @OneToMany
+    @JoinColumn(name = "id_user")
+    private Set<SocialNetwork> socialNetworks = new HashSet<>();
 
     public User(){}
 
@@ -76,6 +82,10 @@ public class User implements Serializable {
 
     public void setBio(String bio) {
         this.bio = bio;
+    }
+
+    public Set<SocialNetwork> getSocialNetworks() {
+        return socialNetworks;
     }
 
     @Override

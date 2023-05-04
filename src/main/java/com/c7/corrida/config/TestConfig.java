@@ -28,10 +28,20 @@ public class TestConfig implements CommandLineRunner {
     private MaterialContentRepository materialContentRepository;
     @Autowired
     private ChallengeContentRepository challengeContentRepository;
+    @Autowired
+    private SocialNetworkRepository socialNetworkRepository;
     @Override
     public void run(String... args) throws Exception {
 
-        userRepository.save(new User(null,"Claudior", "9999","claudior@gmail.com",20,"VASCO"));
+        User user1 = new User(null,"Claudior", "9999","claudior@gmail.com",20,"VASCO");
+        SocialNetwork sn1 = new SocialNetwork(null, "@VASCO");
+        SocialNetwork sn2 = new SocialNetwork(null, "@FLU");
+        socialNetworkRepository.save(sn1);
+        socialNetworkRepository.save(sn2);
+        user1.getSocialNetworks().add(sn1);
+        user1.getSocialNetworks().add(sn2);
+
+        userRepository.save(user1);
 
         Material m1 = new Material(null, "VascoCourse","","","","");
         Material m2 = new Material(null, "VascoCourse2","","","","");
