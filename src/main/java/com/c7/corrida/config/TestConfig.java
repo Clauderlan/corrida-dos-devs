@@ -1,16 +1,10 @@
 package com.c7.corrida.config;
 
-import com.c7.corrida.entities.Category;
-import com.c7.corrida.entities.Challenge;
-import com.c7.corrida.entities.Material;
-import com.c7.corrida.entities.User;
-import com.c7.corrida.entities.contents.MaterialContent;
-import com.c7.corrida.entities.enums.CategoryRule;
-import com.c7.corrida.repositories.CategoryRepository;
-import com.c7.corrida.repositories.ChallengeRepository;
-import com.c7.corrida.repositories.MaterialRepository;
-import com.c7.corrida.repositories.UserRepository;
-import com.c7.corrida.repositories.contents.MaterialContentRepository;
+import com.c7.corrida.entities.*;
+import com.c7.corrida.entities.contents.*;
+import com.c7.corrida.entities.enums.*;
+import com.c7.corrida.repositories.*;
+import com.c7.corrida.repositories.contents.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
@@ -32,6 +26,8 @@ public class TestConfig implements CommandLineRunner {
     private CategoryRepository categoryRepository;
     @Autowired
     private MaterialContentRepository materialContentRepository;
+    @Autowired
+    private ChallengeContentRepository challengeContentRepository;
     @Override
     public void run(String... args) throws Exception {
 
@@ -45,6 +41,10 @@ public class TestConfig implements CommandLineRunner {
         materialRepository.save(m3);
 
         Challenge c1 = new Challenge(null, "VASCO","","", Instant.now(),"",20);
+
+        ChallengeContent ccontent1 = new ChallengeContent(null, "VASCO DA GAMA");
+        c1.getChallengeContent().add(ccontent1);
+        challengeContentRepository.save(ccontent1);
         challengeRepository.save(c1);
 
         Category cc1 = new Category(null, CategoryRule.ADMIN, "Admin");

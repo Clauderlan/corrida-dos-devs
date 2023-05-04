@@ -1,15 +1,17 @@
 package com.c7.corrida.entities;
 
+import com.c7.corrida.entities.contents.ChallengeContent;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "tb_challenge")
 public class Challenge implements Serializable {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,6 +22,9 @@ public class Challenge implements Serializable {
     private String urlImage;
     private Integer points;
 
+    @OneToMany
+    @JoinColumn(name = "id_challenge")
+    private List<ChallengeContent> challengeContent = new ArrayList<>();
     public Challenge(){}
 
     public Challenge(Long id, String title, String bio, String requirements, Instant deadline, String urlImage, Integer points) {
@@ -86,6 +91,10 @@ public class Challenge implements Serializable {
 
     public void setPoints(Integer points) {
         this.points = points;
+    }
+
+    public List<ChallengeContent> getChallengeContent() {
+        return challengeContent;
     }
 
     @Override
