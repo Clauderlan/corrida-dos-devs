@@ -1,5 +1,7 @@
 package com.c7.corrida.entities.contents;
 
+import com.c7.corrida.entities.Material;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -13,6 +15,11 @@ public class MaterialContent implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String content;
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "id_material")
+    private Material material;
 
     public MaterialContent(){}
 
@@ -35,6 +42,14 @@ public class MaterialContent implements Serializable {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public Material getMaterial() {
+        return material;
+    }
+
+    public void setMaterial(Material material) {
+        this.material = material;
     }
 
     @Override

@@ -1,8 +1,11 @@
 package com.c7.corrida.entities;
 
+import com.c7.corrida.entities.contents.MaterialContent;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -18,6 +21,9 @@ public class Material implements Serializable {
     private String detailedInformation;
     private String shortInformation;
 
+    @OneToMany
+    @JoinColumn(name = "id_material")
+    private List<MaterialContent> materialContent = new ArrayList<>();
     public Material(){}
 
     public Material(Long id, String title, String urlImage, String idealFor, String detailedInformation, String shortInformation) {
@@ -77,6 +83,7 @@ public class Material implements Serializable {
         this.shortInformation = shortInformation;
     }
 
+    public List<MaterialContent> getMaterialContent(){return materialContent;}
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

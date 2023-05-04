@@ -4,12 +4,13 @@ import com.c7.corrida.entities.Category;
 import com.c7.corrida.entities.Challenge;
 import com.c7.corrida.entities.Material;
 import com.c7.corrida.entities.User;
+import com.c7.corrida.entities.contents.MaterialContent;
 import com.c7.corrida.entities.enums.CategoryRule;
 import com.c7.corrida.repositories.CategoryRepository;
 import com.c7.corrida.repositories.ChallengeRepository;
 import com.c7.corrida.repositories.MaterialRepository;
 import com.c7.corrida.repositories.UserRepository;
-import com.c7.corrida.services.CategoryService;
+import com.c7.corrida.repositories.contents.MaterialContentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
@@ -29,6 +30,8 @@ public class TestConfig implements CommandLineRunner {
     private ChallengeRepository challengeRepository;
     @Autowired
     private CategoryRepository categoryRepository;
+    @Autowired
+    private MaterialContentRepository materialContentRepository;
     @Override
     public void run(String... args) throws Exception {
 
@@ -38,7 +41,6 @@ public class TestConfig implements CommandLineRunner {
         Material m2 = new Material(null, "VascoCourse2","","","","");
         Material m3 = new Material(null, "VascoCourse3","","","","");
 
-        materialRepository.save(m1);
         materialRepository.save(m2);
         materialRepository.save(m3);
 
@@ -47,6 +49,19 @@ public class TestConfig implements CommandLineRunner {
 
         Category cc1 = new Category(null, CategoryRule.ADMIN, "Admin");
         categoryRepository.save(cc1);
+
+        MaterialContent mc1 = new MaterialContent(null, "VASCO DA GAMA");
+        MaterialContent mc2 = new MaterialContent(null, "VASCO DA GAMA2");
+        MaterialContent mc3 = new MaterialContent(null, "VASCO DA GAMA3");
+        materialContentRepository.save(mc1);
+        materialContentRepository.save(mc2);
+        materialContentRepository.save(mc3);
+        m1.getMaterialContent().add(mc1);
+        m1.getMaterialContent().add(mc2);
+        m1.getMaterialContent().add(mc3);
+
+        materialRepository.save(m1);
+
     }
 }
 
