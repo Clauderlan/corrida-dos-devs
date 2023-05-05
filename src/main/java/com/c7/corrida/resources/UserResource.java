@@ -22,6 +22,11 @@ public class UserResource {
         List<User> users = userService.findAll();
         return ResponseEntity.ok().body(users);
     }
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<User> findById(@PathVariable Long id){
+        User user = userService.findById(id);
+        return ResponseEntity.ok().body(user);
+    }
     @PostMapping
     public ResponseEntity<User> insert(@RequestBody User user){
         user = userService.insert(user);
