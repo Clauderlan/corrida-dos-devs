@@ -22,6 +22,11 @@ public class ChallengeResource {
         List<Challenge> challenges = challengeService.findAll();
         return ResponseEntity.ok().body(challenges);
     }
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<Challenge> findById(@PathVariable Long id){
+        Challenge challenge = challengeService.findById(id);
+        return ResponseEntity.ok().body(challenge);
+    }
     @PostMapping
     public ResponseEntity<Challenge> insert(@RequestBody Challenge challenge){
         challenge = challengeService.insert(challenge);
@@ -32,7 +37,6 @@ public class ChallengeResource {
         challenge = challengeService.update(id,challenge);
         return ResponseEntity.ok().body(challenge);
     }
-
     @DeleteMapping(value = "/{id}")
     public void delete(@PathVariable Long id){
         challengeService.delete(id);
