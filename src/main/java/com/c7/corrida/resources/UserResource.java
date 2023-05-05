@@ -27,4 +27,8 @@ public class UserResource {
         user = userService.insert(user);
         return ResponseEntity.ok().body(user);
     }
+    @DeleteMapping(value = "/{id}")
+    public void delete(@PathVariable Long id){
+        userService.delete(id);
+    }
 }
