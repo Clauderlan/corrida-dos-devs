@@ -27,6 +27,11 @@ public class UserResource {
         User user = userService.findById(id);
         return ResponseEntity.ok().body(user);
     }
+    @GetMapping(value = "/login/{login}")
+    public ResponseEntity<User> findyByLogin(@PathVariable String login){
+        User user = userService.findByLogin(login);
+        return ResponseEntity.ok().body(user);
+    }
     @PostMapping
     public ResponseEntity<User> insert(@RequestBody User user){
         user = userService.insert(user);

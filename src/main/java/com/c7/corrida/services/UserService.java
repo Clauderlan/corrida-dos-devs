@@ -23,6 +23,9 @@ public class UserService {
     public User findById(Long id){
         return userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
     }
+    public User findByLogin(String login){
+        return userRepository.findByLogin(login);
+    }
     public User insert(User user){
         return userRepository.save(user);
     }
@@ -48,6 +51,5 @@ public class UserService {
         }catch (ResourceNotFoundException e){
             throw new ResourceNotFoundException(id);
         }
-
     }
 }
