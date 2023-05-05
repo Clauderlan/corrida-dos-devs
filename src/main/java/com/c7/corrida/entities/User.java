@@ -1,12 +1,11 @@
 package com.c7.corrida.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Table(name = "tb_user")
@@ -22,9 +21,12 @@ public class User implements Serializable {
     private String bio;
 
     @OneToMany
-    @JoinColumn(name = "id_user")
+    @JoinColumn(name = "user_id")
     private Set<SocialNetwork> socialNetworks = new HashSet<>();
 
+    @OneToMany
+    @JoinColumn(name = "challenge_id")
+    private List<ChallengeResponse> challengeResponse = new ArrayList<>();
     public User(){}
 
     public User(Long id,String name, String password, String email, Integer rankPoints, String bio) {
@@ -86,6 +88,10 @@ public class User implements Serializable {
 
     public Set<SocialNetwork> getSocialNetworks() {
         return socialNetworks;
+    }
+
+    public List<ChallengeResponse> getChallengeResponse() {
+        return challengeResponse;
     }
 
     @Override

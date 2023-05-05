@@ -1,6 +1,7 @@
 package com.c7.corrida.entities;
 
 import com.c7.corrida.entities.contents.ChallengeContent;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -22,9 +23,11 @@ public class Challenge implements Serializable {
     private String urlImage;
     private Integer points;
 
-    @OneToMany
     @JoinColumn(name = "id_challenge")
+    @OneToMany
     private List<ChallengeContent> challengeContent = new ArrayList<>();
+
+
     public Challenge(){}
 
     public Challenge(Long id, String title, String bio, String requirements, Instant deadline, String urlImage, Integer points) {

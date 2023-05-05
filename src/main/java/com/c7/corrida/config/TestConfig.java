@@ -30,6 +30,8 @@ public class TestConfig implements CommandLineRunner {
     private ChallengeContentRepository challengeContentRepository;
     @Autowired
     private SocialNetworkRepository socialNetworkRepository;
+    @Autowired
+    private ChallengeResponseRepository challengeResponseRepository;
     @Override
     public void run(String... args) throws Exception {
 
@@ -40,22 +42,24 @@ public class TestConfig implements CommandLineRunner {
         socialNetworkRepository.save(sn2);
         user1.getSocialNetworks().add(sn1);
         user1.getSocialNetworks().add(sn2);
+        userRepository.save(user1);
 
+        Challenge c1 = new Challenge(null, "VASCO","","", Instant.now(),"",20);
+        ChallengeContent ccontent1 = new ChallengeContent(null, "VASCO DA GAMA");
+        c1.getChallengeContent().add(ccontent1);
+        challengeContentRepository.save(ccontent1);
+        challengeRepository.save(c1);
+
+        ChallengeResponse cr1 = new ChallengeResponse(user1,c1,"VaSCO.COM",false);
+        challengeResponseRepository.save(cr1);
+        user1.getChallengeResponse().add(cr1);
         userRepository.save(user1);
 
         Material m1 = new Material(null, "VascoCourse","","","","");
         Material m2 = new Material(null, "VascoCourse2","","","","");
         Material m3 = new Material(null, "VascoCourse3","","","","");
-
         materialRepository.save(m2);
         materialRepository.save(m3);
-
-        Challenge c1 = new Challenge(null, "VASCO","","", Instant.now(),"",20);
-
-        ChallengeContent ccontent1 = new ChallengeContent(null, "VASCO DA GAMA");
-        c1.getChallengeContent().add(ccontent1);
-        challengeContentRepository.save(ccontent1);
-        challengeRepository.save(c1);
 
         Category cc1 = new Category(null, CategoryRule.ADMIN, "Admin");
         categoryRepository.save(cc1);
@@ -69,7 +73,6 @@ public class TestConfig implements CommandLineRunner {
         m1.getMaterialContent().add(mc1);
         m1.getMaterialContent().add(mc2);
         m1.getMaterialContent().add(mc3);
-
         materialRepository.save(m1);
 
     }

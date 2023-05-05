@@ -17,7 +17,7 @@ public class SocialNetwork implements Serializable {
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "id_user")
+    @JoinColumn(name = "user_id")
     private User user;
 
     public SocialNetwork(){}

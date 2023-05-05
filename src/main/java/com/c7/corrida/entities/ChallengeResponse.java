@@ -1,5 +1,7 @@
 package com.c7.corrida.entities;
 
+import com.c7.corrida.entities.pk.ChallengeResponsePK;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -9,28 +11,35 @@ import java.util.Objects;
 @Table(name = "tb_challengeresponse")
 public class ChallengeResponse implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+
+    @EmbeddedId
+    private ChallengeResponsePK id = new ChallengeResponsePK();
     private String responseLink;
     private Boolean rated;
 
     public ChallengeResponse(){}
 
-    public ChallengeResponse(Long id, String responseLink, Boolean rated) {
-        this.id = id;
+    public ChallengeResponse(User user, Challenge challenge, String responseLink, Boolean rated) {
+        id.setChallenge(challenge);
+        id.setUser(user);
         this.responseLink = responseLink;
         this.rated = rated;
     }
 
-    public Long getId() {
-        return id;
+    @JsonIgnore
+    public User getUser(){
+        return id.getUser();
     }
-
-    public void setId(Long id) {
-        this.id = id;
+    public void setUser(User user){
+        id.setUser(user);
     }
-
+    @JsonIgnore
+    public Challenge getChallenge(){
+        return id.getChallenge();
+    }
+    public void setChallenge(Challenge challenge){
+        id.setChallenge(challenge);
+    }
     public String getResponseLink() {
         return responseLink;
     }
