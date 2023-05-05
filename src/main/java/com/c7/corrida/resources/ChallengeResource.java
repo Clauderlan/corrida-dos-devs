@@ -27,8 +27,15 @@ public class ChallengeResource {
         challenge = challengeService.insert(challenge);
         return ResponseEntity.ok().body(challenge);
     }
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<Challenge> update(@PathVariable Long id, @RequestBody Challenge challenge){
+        challenge = challengeService.update(id,challenge);
+        return ResponseEntity.ok().body(challenge);
+    }
+
     @DeleteMapping(value = "/{id}")
     public void delete(@PathVariable Long id){
         challengeService.delete(id);
     }
+
 }
