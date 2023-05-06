@@ -23,6 +23,5 @@ public class MaterialResource {
     public ResponseEntity<List<Material>> findAll(){
         List<Material> materials = materialService.findAll();
         return ResponseEntity.ok().body(materials);
-
     }
 }

@@ -1,9 +1,12 @@
 package com.c7.corrida.entities;
 
 import com.c7.corrida.entities.enums.CategoryRule;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -14,14 +17,15 @@ public class Category implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Integer rule;
-    private String name;
 
+    @JsonIgnore
+    @OneToMany
+    private List<User> users = new ArrayList<>();
     public Category(){}
 
-    public Category(Long id, CategoryRule rule, String name) {
+    public Category(Long id, CategoryRule rule) {
         this.id = id;
         setCategoryRule(rule);
-        this.name = name;
     }
 
     public Long getId() {
@@ -42,12 +46,8 @@ public class Category implements Serializable {
         }
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public List<User> getUsers() {
+        return users;
     }
 
     @Override

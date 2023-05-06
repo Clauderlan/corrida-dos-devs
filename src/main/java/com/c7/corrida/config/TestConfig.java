@@ -35,7 +35,24 @@ public class TestConfig implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
+        Category cc1 = new Category(null, CategoryRule.ADMIN);
+        categoryRepository.save(cc1);
+
         User user1 = new User(null,"Claudior", "9999","claudior@gmail.com",20,"VASCO");
+        userRepository.save(user1);
+        user1.setCategory(cc1);
+        cc1.getUsers().add(user1);
+
+        User user2 = new User(null,"FLU", "9999","claudior@gmail.com",20,"VASCO");
+        user2.setCategory(cc1);
+        userRepository.save(user2);
+        cc1.getUsers().add(user2);
+
+
+        userRepository.save(user1);
+        userRepository.save(user2);
+        categoryRepository.save(cc1);
+
         SocialNetwork sn1 = new SocialNetwork(null, "@VASCO");
         SocialNetwork sn2 = new SocialNetwork(null, "@FLU");
         socialNetworkRepository.save(sn1);
@@ -60,9 +77,6 @@ public class TestConfig implements CommandLineRunner {
         Material m3 = new Material(null, "VascoCourse3","","","","");
         materialRepository.save(m2);
         materialRepository.save(m3);
-
-        Category cc1 = new Category(null, CategoryRule.ADMIN, "Admin");
-        categoryRepository.save(cc1);
 
         MaterialContent mc1 = new MaterialContent(null, "VASCO DA GAMA");
         MaterialContent mc2 = new MaterialContent(null, "VASCO DA GAMA2");

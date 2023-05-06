@@ -19,14 +19,26 @@ public class User implements Serializable {
     private String email;
     private Integer rankPoints;
     private String bio;
-
     @OneToMany
     @JoinColumn(name = "user_id")
     private Set<SocialNetwork> socialNetworks = new HashSet<>();
 
+    @ManyToOne
+    @JoinColumn(name = "category_rule")
+    private Category category;
+
     @OneToMany
     @JoinColumn(name = "challenge_id")
     private List<ChallengeResponse> challengeResponse = new ArrayList<>();
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
     public User(){}
 
     public User(Long id,String name, String password, String email, Integer rankPoints, String bio) {
