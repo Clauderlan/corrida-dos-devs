@@ -6,6 +6,7 @@ import com.c7.corrida.services.exceptions.DatabaseException;
 import com.c7.corrida.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLIntegrityConstraintViolationException;
@@ -26,6 +27,15 @@ public class UserService {
     public User findByLogin(String login){
         return userRepository.findByLogin(login);
     }
+
+    public List<User> findTop(){
+        List<User> users = userRepository.findAll(Sort.by(Sort.Direction.DESC, "rankPoints"));
+        if(users.size() > 10){
+            return users.subList(0,10);
+        }
+        return users;
+    }
+
     public User insert(User user){
         return userRepository.save(user);
     }

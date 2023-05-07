@@ -32,6 +32,11 @@ public class UserResource {
         User user = userService.findByLogin(login);
         return ResponseEntity.ok().body(user);
     }
+    @GetMapping(value = "/top")
+    public ResponseEntity<List<User>> findTop(){
+        List<User> users = userService.findTop();
+        return ResponseEntity.ok().body(users);
+    }
     @PostMapping
     public ResponseEntity<User> insert(@RequestBody User user){
         user = userService.insert(user);
