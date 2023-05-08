@@ -16,6 +16,7 @@ public class ChallengeResponsePK implements Serializable {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
     @ManyToOne
     @JoinColumn(name = "challenge_id")
     private Challenge challenge;
@@ -44,6 +45,13 @@ public class ChallengeResponsePK implements Serializable {
         return Objects.equals(user, that.user) && Objects.equals(challenge, that.challenge);
     }
 
+    @Override
+    public String toString() {
+        return "ChallengeResponsePK{" +
+                "user=" + user +
+                ", challenge=" + challenge +
+                '}';
+    }
     @Override
     public int hashCode() {
         return Objects.hash(user, challenge);

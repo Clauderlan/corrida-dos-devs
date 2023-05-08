@@ -72,7 +72,7 @@ public class TestConfig implements CommandLineRunner {
         challengeContentRepository.save(ccontent1);
         challengeRepository.save(c1);
 
-        ChallengeResponse cr1 = new ChallengeResponse(user1,c1,"VaSCO.COM",false);
+        ChallengeResponse cr1 = new ChallengeResponse(user1,c1,"VaSCO.COM");
         challengeResponseRepository.save(cr1);
         user1.getChallengeResponse().add(cr1);
         userRepository.save(user1);

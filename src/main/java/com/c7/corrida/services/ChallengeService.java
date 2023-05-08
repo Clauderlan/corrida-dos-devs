@@ -7,6 +7,9 @@ import com.c7.corrida.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -29,6 +32,7 @@ public class ChallengeService {
         challengeRepository.save(challengeCompare);
         return challengeCompare;
     }
+
     private void updateData(Challenge challenge, Challenge challengeCompare) {
         challengeCompare.setTitle(challenge.getTitle());
         challengeCompare.setBio(challenge.getBio());

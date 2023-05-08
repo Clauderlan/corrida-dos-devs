@@ -11,19 +11,16 @@ import java.util.Objects;
 @Table(name = "tb_challengeresponse")
 public class ChallengeResponse implements Serializable {
 
-
     @EmbeddedId
     private ChallengeResponsePK id = new ChallengeResponsePK();
     private String responseLink;
-    private Boolean rated;
-
+    private Boolean rated = false;
     public ChallengeResponse(){}
 
-    public ChallengeResponse(User user, Challenge challenge, String responseLink, Boolean rated) {
+    public ChallengeResponse(User user, Challenge challenge, String responseLink) {
         id.setChallenge(challenge);
         id.setUser(user);
         this.responseLink = responseLink;
-        this.rated = rated;
     }
 
     @JsonIgnore
@@ -57,12 +54,22 @@ public class ChallengeResponse implements Serializable {
     }
 
     @Override
+    public String toString() {
+        return "ChallengeResponse{" +
+                "id=" + id +
+                ", responseLink='" + responseLink + '\'' +
+                ", rated=" + rated +
+                '}';
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ChallengeResponse that = (ChallengeResponse) o;
         return Objects.equals(id, that.id);
     }
+
 
     @Override
     public int hashCode() {
