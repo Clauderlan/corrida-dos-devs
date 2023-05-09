@@ -1,6 +1,7 @@
 package com.c7.corrida.services;
 
 import com.c7.corrida.entities.Material;
+import com.c7.corrida.entities.contents.MaterialContent;
 import com.c7.corrida.repositories.MaterialRepository;
 import com.c7.corrida.services.exceptions.DatabaseException;
 import com.c7.corrida.services.exceptions.ResourceNotFoundException;
@@ -26,6 +27,21 @@ public class MaterialService {
 
     public Material insert(Material material){
         return materialRepository.save(material);
+    }
+
+    public Material update(Long id, Material material){
+        Material compare = findById(id);
+        updateData(compare, material);
+        materialRepository.save(compare);
+        return compare;
+    }
+
+    private void updateData(Material compare, Material material) {
+        compare.setTitle(material.getTitle());
+        compare.setIdealFor(material.getIdealFor());
+        compare.setDetailedInformation(material.getDetailedInformation());
+        compare.setUrlImage(material.getUrlImage());
+        compare.setShortInformation(material.getShortInformation());
     }
 
     public void delete(Long id){

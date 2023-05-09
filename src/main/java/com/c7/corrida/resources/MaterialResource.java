@@ -34,7 +34,11 @@ public class MaterialResource {
         material = materialService.insert(material);
         return ResponseEntity.ok().body(material);
     }
-
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<Material> update(@PathVariable Long id, @RequestBody Material material){
+        material = materialService.update(id, material);
+        return ResponseEntity.ok().body(material);
+    }
     @DeleteMapping(value = "/{id}")
     public void delete(@PathVariable Long id){
         materialService.delete(id);
