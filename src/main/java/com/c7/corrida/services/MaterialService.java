@@ -2,8 +2,10 @@ package com.c7.corrida.services;
 
 import com.c7.corrida.entities.Material;
 import com.c7.corrida.repositories.MaterialRepository;
+import com.c7.corrida.services.exceptions.DatabaseException;
 import com.c7.corrida.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,5 +26,15 @@ public class MaterialService {
 
     public Material insert(Material material){
         return materialRepository.save(material);
+    }
+
+    public void delete(Long id){
+        try {
+            materialRepository.deleteById(id);
+        }catch (DataIntegrityViolationException e){
+            throw new DatabaseException(e.getMessage());
+        }catch (ResourceNotFoundException e){
+            throw new ResourceNotFoundException(id);
+        }
     }
 }

@@ -34,4 +34,9 @@ public class MaterialResource {
         material = materialService.insert(material);
         return ResponseEntity.ok().body(material);
     }
+
+    @DeleteMapping(value = "/{id}")
+    public void delete(@PathVariable Long id){
+        materialService.delete(id);
+    }
 }
