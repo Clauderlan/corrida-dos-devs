@@ -28,4 +28,10 @@ public class MaterialResource {
         Material material = materialService.findById(id);
         return ResponseEntity.ok().body(material);
     }
+
+    @PostMapping
+    public ResponseEntity<Material> insert(@RequestBody Material material){
+        material = materialService.insert(material);
+        return ResponseEntity.ok().body(material);
+    }
 }

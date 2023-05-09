@@ -21,4 +21,8 @@ public class MaterialService {
     public Material findById(Long id){
         return materialRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
     }
+
+    public Material insert(Material material){
+        return materialRepository.save(material);
+    }
 }
