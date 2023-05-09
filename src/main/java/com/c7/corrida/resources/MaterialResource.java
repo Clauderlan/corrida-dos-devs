@@ -5,9 +5,7 @@ import com.c7.corrida.services.MaterialService;
 import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,5 +21,11 @@ public class MaterialResource {
     public ResponseEntity<List<Material>> findAll(){
         List<Material> materials = materialService.findAll();
         return ResponseEntity.ok().body(materials);
+    }
+
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<Material> findyById(@PathVariable Long id){
+        Material material = materialService.findById(id);
+        return ResponseEntity.ok().body(material);
     }
 }

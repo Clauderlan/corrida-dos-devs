@@ -27,6 +27,9 @@ public class Challenge implements Serializable {
     @OneToMany
     private List<ChallengeContent> challengeContent = new ArrayList<>();
 
+    @OneToMany
+    @JoinColumn(name = "user_id")
+    private List<ChallengeResponse> challengeResponse = new ArrayList<>();
 
     public Challenge(){}
 
@@ -98,6 +101,10 @@ public class Challenge implements Serializable {
 
     public List<ChallengeContent> getChallengeContent() {
         return challengeContent;
+    }
+
+    public List<ChallengeResponse> getChallengeResponse() {
+        return challengeResponse;
     }
 
     @Override

@@ -18,8 +18,8 @@ public class ChallengeResponse implements Serializable {
     public ChallengeResponse(){}
 
     public ChallengeResponse(User user, Challenge challenge, String responseLink) {
-        id.setChallenge(challenge);
         id.setUser(user);
+        id.setChallenge(challenge);
         this.responseLink = responseLink;
     }
 
@@ -51,15 +51,6 @@ public class ChallengeResponse implements Serializable {
 
     public void setRated(Boolean rated) {
         this.rated = rated;
-    }
-
-    @Override
-    public String toString() {
-        return "ChallengeResponse{" +
-                "id=" + id +
-                ", responseLink='" + responseLink + '\'' +
-                ", rated=" + rated +
-                '}';
     }
 
     @Override

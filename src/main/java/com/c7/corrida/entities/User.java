@@ -103,6 +103,7 @@ public class User implements Serializable {
     }
 
     public List<ChallengeResponse> getChallengeResponse() {
+        System.out.println("Vasco ?");
         return challengeResponse;
     }
 
@@ -113,6 +114,7 @@ public class User implements Serializable {
         User user = (User) o;
         return Objects.equals(id, user.id);
     }
+
 
     @Override
     public int hashCode() {

@@ -7,6 +7,7 @@ import com.c7.corrida.entities.auxiliary.AuxiliaryChallengeResponse;
 import com.c7.corrida.repositories.UserRepository;
 import com.c7.corrida.services.ChallengeResponseService;
 import com.c7.corrida.services.ChallengeService;
+import com.c7.corrida.services.UserService;
 import com.c7.corrida.services.exceptions.ResourceNotFoundException;
 import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class ChallengeResource {
     @Autowired
     private ChallengeResponseService challengeResponseService;
     @Autowired
-    UserRepository userRepository;
+    private UserService userService;
     @GetMapping
     public ResponseEntity<List<Challenge>> findAll(){
         List<Challenge> challenges = challengeService.findAll();
@@ -61,11 +62,16 @@ public class ChallengeResource {
     }
     @PostMapping(value = "/response")
     public ResponseEntity<ChallengeResponse> insertResponse(@RequestBody AuxiliaryChallengeResponse auxiliar){
-        ChallengeResponse cr1 = new ChallengeResponse(auxiliar.getUser(), auxiliar.getChallenge(),auxiliar.getResponseLink());
-        System.out.println(auxiliar.getUser().getName() + " " + auxiliar.getUser().getId());
+        Long userId = auxiliar.getUserId();
+        Long challengeId = auxiliar.getChallengeId();
+
+        User user = userService.findById(userId);
+        Challenge challenge = challengeService.findById(challengeId);
+
+        ChallengeResponse cr1 = new ChallengeResponse(user, challenge, auxiliar.getResponseLink());
         cr1 = challengeResponseService.insert(cr1);
 
-
+        user.getChallengeResponse().add(cr1);
         // TA RETORNANDO NO USER 1 COMO SE FOSSE UM map.
 
 
