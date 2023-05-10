@@ -1,7 +1,9 @@
 package com.c7.corrida.services;
 
 import com.c7.corrida.entities.Challenge;
+import com.c7.corrida.entities.contents.ChallengeContent;
 import com.c7.corrida.repositories.ChallengeRepository;
+import com.c7.corrida.repositories.contents.ChallengeContentRepository;
 import com.c7.corrida.services.exceptions.DatabaseException;
 import com.c7.corrida.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +20,18 @@ public class ChallengeService {
 
     @Autowired
     private ChallengeRepository challengeRepository;
+    @Autowired
+    private ChallengeContentRepository challengeContentRepository;
 
     public List<Challenge> findAll(){
         return challengeRepository.findAll();
     }
     public Challenge findById(Long id){ return challengeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));}
+
+    public List<ChallengeContent> findByIdContent(Long id){
+        return challengeContentRepository.findByChallenge(id);
+    }
+
     public Challenge insert(Challenge challenge){
         return challengeRepository.save(challenge);
     }

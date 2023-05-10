@@ -4,6 +4,7 @@ import com.c7.corrida.entities.Challenge;
 import com.c7.corrida.entities.ChallengeResponse;
 import com.c7.corrida.entities.User;
 import com.c7.corrida.entities.auxiliary.AuxiliaryChallengeResponse;
+import com.c7.corrida.entities.contents.ChallengeContent;
 import com.c7.corrida.repositories.UserRepository;
 import com.c7.corrida.services.ChallengeResponseService;
 import com.c7.corrida.services.ChallengeService;
@@ -37,6 +38,13 @@ public class ChallengeResource {
         Challenge challenge = challengeService.findById(id);
         return ResponseEntity.ok().body(challenge);
     }
+
+    @GetMapping(value = "/content/{id}")
+    public ResponseEntity<List<ChallengeContent>> findByIdContent(@PathVariable Long id){
+        List<ChallengeContent> challengeContents = challengeService.findByIdContent(id);
+        return ResponseEntity.ok().body(challengeContents);
+    }
+
     @PostMapping
     public ResponseEntity<Challenge> insert(@RequestBody Challenge challenge){
         challenge = challengeService.insert(challenge);
