@@ -74,6 +74,12 @@ public class UserResource {
         return ResponseEntity.ok().body(socialNetwork);
     }
 
+    @PutMapping(value = "/social/{id}")
+    public ResponseEntity<SocialNetwork> updateSocial(@PathVariable Long id, @RequestBody SocialNetwork socialNetwork){
+        socialNetwork = userService.updateSocial(id, socialNetwork);
+        return ResponseEntity.ok().body(socialNetwork);
+    }
+
     @DeleteMapping(value = "/social/{id}")
     public void deleteSocial(@PathVariable Long id){
         userService.deleteSocial(id);

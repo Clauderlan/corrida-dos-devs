@@ -89,7 +89,16 @@ public class UserService {
         return socialNetwork;
     }
 
+    public SocialNetwork updateSocial(Long id, SocialNetwork socialNetwork){
+        SocialNetwork compare = findByIdSocial(id);
+        updateDataSocial(socialNetwork, compare);
+        socialNetworkRepository.save(compare);
+        return compare;
+    }
 
+    private void updateDataSocial(SocialNetwork socialNetwork, SocialNetwork compare) {
+        compare.setSocialName(socialNetwork.getSocialName());
+    }
 
     public void deleteSocial(Long id){
         socialNetworkRepository.deleteById(id);
