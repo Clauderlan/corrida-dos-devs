@@ -75,6 +75,10 @@ public class UserService {
         return socialNetworkRepository.findAll();
     }
 
+    public SocialNetwork findByIdSocial(Long id){
+        return socialNetworkRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
+    }
+
     public SocialNetwork insertSocial(AuxiliarySocialNetwork auxiliarySocialNetwork){
         User user = auxiliarySocialNetwork.getUser();
         String socialName = auxiliarySocialNetwork.getSocialName();
@@ -84,6 +88,8 @@ public class UserService {
         userRepository.save(user);
         return socialNetwork;
     }
+
+
 
     public void deleteSocial(Long id){
         socialNetworkRepository.deleteById(id);

@@ -5,6 +5,7 @@ import com.c7.corrida.entities.SocialNetwork;
 import com.c7.corrida.entities.User;
 import com.c7.corrida.entities.auxiliary.AuxiliarySocialNetwork;
 import com.c7.corrida.services.UserService;
+import com.c7.corrida.services.exceptions.ResourceNotFoundException;
 import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -62,7 +63,11 @@ public class UserResource {
         List<SocialNetwork> socialNetworks = userService.findAllSocial();
         return ResponseEntity.ok().body(socialNetworks);
     }
-
+    @GetMapping(value = "/social/{id}")
+    public ResponseEntity<SocialNetwork> findByidSocial(@PathVariable Long id){
+        SocialNetwork socialNetwork = userService.findByIdSocial(id);
+        return ResponseEntity.ok().body(socialNetwork);
+    }
     @PostMapping(value = "/social")
     public ResponseEntity<SocialNetwork> insertSocial(@RequestBody AuxiliarySocialNetwork auxiliarySocialNetworkSocialNetwork){
         SocialNetwork socialNetwork = userService.insertSocial(auxiliarySocialNetworkSocialNetwork);
