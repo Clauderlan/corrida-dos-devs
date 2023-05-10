@@ -1,9 +1,7 @@
 package com.c7.corrida.entities;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-
 import java.io.Serializable;
 import java.util.*;
 

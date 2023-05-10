@@ -2,6 +2,7 @@ package com.c7.corrida.services;
 
 import com.c7.corrida.entities.SocialNetwork;
 import com.c7.corrida.entities.User;
+import com.c7.corrida.entities.auxiliary.AuxiliarySocialNetwork;
 import com.c7.corrida.repositories.SocialNetworkRepository;
 import com.c7.corrida.repositories.UserRepository;
 import com.c7.corrida.services.exceptions.DatabaseException;
@@ -70,9 +71,18 @@ public class UserService {
 
     // Social Network
 
-    @GetMapping(value = "/social")
     public List<SocialNetwork> findAllSocial(){
         return socialNetworkRepository.findAll();
+    }
+
+    public SocialNetwork insertSocial(AuxiliarySocialNetwork auxiliarySocialNetwork){
+        User user = auxiliarySocialNetwork.getUser();
+        String socialName = auxiliarySocialNetwork.getSocialName();
+        SocialNetwork socialNetwork = new SocialNetwork(null, socialName, user);
+        socialNetwork = socialNetworkRepository.save(socialNetwork);
+        user.getSocialNetworks().add(socialNetwork);
+        userRepository.save(user);
+        return socialNetwork;
     }
 
 

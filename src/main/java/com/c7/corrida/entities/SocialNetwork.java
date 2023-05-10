@@ -24,6 +24,11 @@ public class SocialNetwork implements Serializable {
         this.id = id;
         this.socialName = socialName;
     }
+    public SocialNetwork(Long id, String socialName, User user) {
+        this.id = id;
+        this.socialName = socialName;
+        this.user = user;
+    }
 
     public Long getId() {
         return id;

@@ -3,6 +3,7 @@ package com.c7.corrida.resources;
 
 import com.c7.corrida.entities.SocialNetwork;
 import com.c7.corrida.entities.User;
+import com.c7.corrida.entities.auxiliary.AuxiliarySocialNetwork;
 import com.c7.corrida.services.UserService;
 import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,4 +63,9 @@ public class UserResource {
         return ResponseEntity.ok().body(socialNetworks);
     }
 
+    @PostMapping(value = "/social")
+    public ResponseEntity<SocialNetwork> insertSocial(@RequestBody AuxiliarySocialNetwork auxiliarySocialNetworkSocialNetwork){
+        SocialNetwork socialNetwork = userService.insertSocial(auxiliarySocialNetworkSocialNetwork);
+        return ResponseEntity.ok().body(socialNetwork);
+    }
 }
