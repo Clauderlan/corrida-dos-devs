@@ -68,4 +68,9 @@ public class UserResource {
         SocialNetwork socialNetwork = userService.insertSocial(auxiliarySocialNetworkSocialNetwork);
         return ResponseEntity.ok().body(socialNetwork);
     }
+
+    @DeleteMapping(value = "/social/{id}")
+    public void deleteSocial(@PathVariable Long id){
+        userService.deleteSocial(id);
+    }
 }

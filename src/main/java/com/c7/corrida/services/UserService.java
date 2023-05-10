@@ -85,5 +85,9 @@ public class UserService {
         return socialNetwork;
     }
 
+    public void deleteSocial(Long id){
+        socialNetworkRepository.deleteById(id);
+    }
+
 
 }
