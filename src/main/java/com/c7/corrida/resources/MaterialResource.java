@@ -1,6 +1,7 @@
 package com.c7.corrida.resources;
 
 import com.c7.corrida.entities.Material;
+import com.c7.corrida.entities.contents.MaterialContent;
 import com.c7.corrida.services.MaterialService;
 import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,11 @@ public class MaterialResource {
         return ResponseEntity.ok().body(material);
     }
 
+    @GetMapping(value = "/content/{id}")
+    public ResponseEntity<List<MaterialContent>> findById(@PathVariable Long id){
+        List<MaterialContent> materialContent = materialService.findByIdContent(id);
+        return ResponseEntity.ok().body(materialContent);
+    }
     @PostMapping
     public ResponseEntity<Material> insert(@RequestBody Material material){
         material = materialService.insert(material);

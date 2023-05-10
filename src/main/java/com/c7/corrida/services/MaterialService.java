@@ -28,6 +28,10 @@ public class MaterialService {
         return materialRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
     }
 
+    public List<MaterialContent> findByIdContent(Long id){
+        return materialContentRepository.findByMaterial(id);
+    }
+
     public Material insert(Material material){
         if(material.getMaterialContent().size() > 0){
             for(MaterialContent x : material.getMaterialContent()){
