@@ -33,6 +33,11 @@ public class ChallengeService {
     }
 
     public Challenge insert(Challenge challenge){
+        if(challenge.getChallengeContent().size() > 0){
+            for(ChallengeContent x : challenge.getChallengeContent()){
+                challengeContentRepository.save(x);
+            }
+        }
         return challengeRepository.save(challenge);
     }
     public Challenge update(Long id,Challenge challenge){
