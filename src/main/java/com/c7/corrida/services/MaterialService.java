@@ -3,6 +3,7 @@ package com.c7.corrida.services;
 import com.c7.corrida.entities.Material;
 import com.c7.corrida.entities.contents.MaterialContent;
 import com.c7.corrida.repositories.MaterialRepository;
+import com.c7.corrida.repositories.contents.MaterialContentRepository;
 import com.c7.corrida.services.exceptions.DatabaseException;
 import com.c7.corrida.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,8 @@ public class MaterialService {
     @Autowired
     private MaterialRepository materialRepository;
 
+    @Autowired
+    private MaterialContentRepository materialContentRepository;
     public List<Material> findAll(){
         return materialRepository.findAll();
     }
@@ -26,6 +29,11 @@ public class MaterialService {
     }
 
     public Material insert(Material material){
+        if(material.getMaterialContent().size() > 0){
+            for(MaterialContent x : material.getMaterialContent()){
+                materialContentRepository.save(x);
+            }
+        }
         return materialRepository.save(material);
     }
 
