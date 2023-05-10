@@ -14,7 +14,6 @@ public class SocialNetwork implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String socialName;
-
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_id")

@@ -1,6 +1,8 @@
 package com.c7.corrida.services;
 
+import com.c7.corrida.entities.SocialNetwork;
 import com.c7.corrida.entities.User;
+import com.c7.corrida.repositories.SocialNetworkRepository;
 import com.c7.corrida.repositories.UserRepository;
 import com.c7.corrida.services.exceptions.DatabaseException;
 import com.c7.corrida.services.exceptions.ResourceNotFoundException;
@@ -8,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
@@ -17,6 +20,8 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private SocialNetworkRepository socialNetworkRepository;
 
     public List<User> findAll(){
         return userRepository.findAll();
@@ -62,4 +67,13 @@ public class UserService {
             throw new ResourceNotFoundException(id);
         }
     }
+
+    // Social Network
+
+    @GetMapping(value = "/social")
+    public List<SocialNetwork> findAllSocial(){
+        return socialNetworkRepository.findAll();
+    }
+
+
 }

@@ -1,6 +1,7 @@
 package com.c7.corrida.resources;
 
 
+import com.c7.corrida.entities.SocialNetwork;
 import com.c7.corrida.entities.User;
 import com.c7.corrida.services.UserService;
 import jakarta.annotation.Resource;
@@ -52,4 +53,13 @@ public class UserResource {
     public void delete(@PathVariable Long id){
         userService.delete(id);
     }
+
+    // Social Network
+
+    @GetMapping(value = "/social")
+    public ResponseEntity<List<SocialNetwork>> findAllSocial(){
+        List<SocialNetwork> socialNetworks = userService.findAllSocial();
+        return ResponseEntity.ok().body(socialNetworks);
+    }
+
 }
