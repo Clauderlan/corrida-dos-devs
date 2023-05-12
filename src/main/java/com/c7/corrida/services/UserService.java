@@ -3,6 +3,7 @@ package com.c7.corrida.services;
 import com.c7.corrida.entities.SocialNetwork;
 import com.c7.corrida.entities.User;
 import com.c7.corrida.entities.auxiliary.AuxiliarySocialNetwork;
+import com.c7.corrida.repositories.CategoryRepository;
 import com.c7.corrida.repositories.SocialNetworkRepository;
 import com.c7.corrida.repositories.UserRepository;
 import com.c7.corrida.services.exceptions.DatabaseException;
@@ -21,6 +22,8 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private CategoryRepository categoryRepository;
     @Autowired
     private SocialNetworkRepository socialNetworkRepository;
 
@@ -43,7 +46,10 @@ public class UserService {
     }
 
     public User insert(User user){
-        return userRepository.save(user);
+        user = userRepository.save(user);
+        user.getCategory().getUsers().add(user);
+        categoryRepository.save(user.getCategory());
+        return user;
     }
 
     public User update(Long id, User user){
