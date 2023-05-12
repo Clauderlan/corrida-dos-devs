@@ -8,29 +8,28 @@ import java.io.Serializable;
 
 public class AuxiliaryChallengeResponse implements Serializable {
 
-    private Long userId;
-    private Long challengeId;
+    private User user;
+
+    private Challenge challenge;
 
     private Boolean rated = false;
 
     private String responseLink;
 
-    public AuxiliaryChallengeResponse(){}
-
-    public Long getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public Long getChallengeId() {
-        return challengeId;
+    public Challenge getChallenge() {
+        return challenge;
     }
 
-    public void setChallengeId(Long challengeId) {
-        this.challengeId = challengeId;
+    public void setChallenge(Challenge challenge) {
+        this.challenge = challenge;
     }
 
     public Boolean getRated() {

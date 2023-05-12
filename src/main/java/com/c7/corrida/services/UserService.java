@@ -79,6 +79,10 @@ public class UserService {
         return socialNetworkRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
     }
 
+    public List<SocialNetwork> findByUserIdSocial(Long id){
+        return socialNetworkRepository.findByUserId(id);
+    }
+
     public SocialNetwork insertSocial(AuxiliarySocialNetwork auxiliarySocialNetwork){
         User user = auxiliarySocialNetwork.getUser();
         String socialName = auxiliarySocialNetwork.getSocialName();

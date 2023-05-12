@@ -53,6 +53,7 @@ public class ChallengeResponse implements Serializable {
         this.rated = rated;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

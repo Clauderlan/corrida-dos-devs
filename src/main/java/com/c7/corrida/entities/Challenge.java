@@ -107,6 +107,7 @@ public class Challenge implements Serializable {
         return challengeResponse;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

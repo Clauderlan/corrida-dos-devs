@@ -101,9 +101,9 @@ public class User implements Serializable {
     }
 
     public List<ChallengeResponse> getChallengeResponse() {
-        System.out.println("Vasco ?");
         return challengeResponse;
     }
+
 
     @Override
     public boolean equals(Object o) {

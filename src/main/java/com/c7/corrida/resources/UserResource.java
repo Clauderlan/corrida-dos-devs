@@ -68,6 +68,11 @@ public class UserResource {
         SocialNetwork socialNetwork = userService.findByIdSocial(id);
         return ResponseEntity.ok().body(socialNetwork);
     }
+    @GetMapping(value = "/social/userid/{id}")
+    public ResponseEntity<List<SocialNetwork>> findByUserIdSocial(@PathVariable Long id){
+        List<SocialNetwork> socialNetworks= userService.findByUserIdSocial(id);
+        return ResponseEntity.ok().body(socialNetworks);
+    }
     @PostMapping(value = "/social")
     public ResponseEntity<SocialNetwork> insertSocial(@RequestBody AuxiliarySocialNetwork auxiliarySocialNetworkSocialNetwork){
         SocialNetwork socialNetwork = userService.insertSocial(auxiliarySocialNetworkSocialNetwork);

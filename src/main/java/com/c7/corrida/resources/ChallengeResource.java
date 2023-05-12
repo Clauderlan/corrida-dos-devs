@@ -39,12 +39,6 @@ public class ChallengeResource {
         return ResponseEntity.ok().body(challenge);
     }
 
-    @GetMapping(value = "/content/{id}")
-    public ResponseEntity<List<ChallengeContent>> findByIdContent(@PathVariable Long id){
-        List<ChallengeContent> challengeContents = challengeService.findByIdContent(id);
-        return ResponseEntity.ok().body(challengeContents);
-    }
-
     @PostMapping
     public ResponseEntity<Challenge> insert(@RequestBody Challenge challenge){
         challenge = challengeService.insert(challenge);
@@ -68,24 +62,20 @@ public class ChallengeResource {
         List<ChallengeResponse> challengeResponses = challengeResponseService.findAll();
         return ResponseEntity.ok().body(challengeResponses);
     }
+
     @PostMapping(value = "/response")
     public ResponseEntity<ChallengeResponse> insertResponse(@RequestBody AuxiliaryChallengeResponse auxiliar){
-        Long userId = auxiliar.getUserId();
-        Long challengeId = auxiliar.getChallengeId();
-
-        User user = userService.findById(userId);
-        Challenge challenge = challengeService.findById(challengeId);
-
-        ChallengeResponse cr1 = new ChallengeResponse(user, challenge, auxiliar.getResponseLink());
-        cr1 = challengeResponseService.insert(cr1);
-
-        user.getChallengeResponse().add(cr1);
-        // TA RETORNANDO NO USER 1 COMO SE FOSSE UM map.
-
-
-        return ResponseEntity.ok().body(cr1);
+        ChallengeResponse challengeResponse = challengeResponseService.insert(auxiliar);
+        return ResponseEntity.ok().body(challengeResponse);
     }
 
 
+    // Content routes
+
+    @GetMapping(value = "/content/{id}")
+    public ResponseEntity<List<ChallengeContent>> findByIdContent(@PathVariable Long id){
+        List<ChallengeContent> challengeContents = challengeService.findByIdContent(id);
+        return ResponseEntity.ok().body(challengeContents);
+    }
 
 }
