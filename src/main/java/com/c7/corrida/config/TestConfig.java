@@ -38,7 +38,21 @@ public class TestConfig implements CommandLineRunner {
         Category cc1 = new Category(null, CategoryRule.ADMIN);
         categoryRepository.save(cc1);
 
+        User user1 = new User(null,"Claudior", "9999","claudior@gmail.com",20,"VASCO");
+        userRepository.save(user1);
+        user1.setCategory(cc1);
+        cc1.getUsers().add(user1);
 
+        userRepository.save(user1);
+        categoryRepository.save(cc1);
+
+        SocialNetwork sn1 = new SocialNetwork(null, "@VASCO");
+        SocialNetwork sn2 = new SocialNetwork(null, "@FLU");
+        socialNetworkRepository.save(sn1);
+        socialNetworkRepository.save(sn2);
+        user1.getSocialNetworks().add(sn1);
+        user1.getSocialNetworks().add(sn2);
+        userRepository.save(user1);
 
         Challenge c1 = new Challenge(null, "VASCO","","", Instant.now(),"",20);
         ChallengeContent ccontent1 = new ChallengeContent(null, "VASCO DA GAMA");

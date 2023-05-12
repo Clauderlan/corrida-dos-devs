@@ -2,14 +2,9 @@ package com.c7.corrida.resources;
 
 import com.c7.corrida.entities.Challenge;
 import com.c7.corrida.entities.ChallengeResponse;
-import com.c7.corrida.entities.User;
 import com.c7.corrida.entities.auxiliary.AuxiliaryChallengeResponse;
 import com.c7.corrida.entities.contents.ChallengeContent;
-import com.c7.corrida.repositories.UserRepository;
-import com.c7.corrida.services.ChallengeResponseService;
 import com.c7.corrida.services.ChallengeService;
-import com.c7.corrida.services.UserService;
-import com.c7.corrida.services.exceptions.ResourceNotFoundException;
 import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,10 +19,7 @@ public class ChallengeResource {
 
     @Autowired
     private ChallengeService challengeService;
-    @Autowired
-    private ChallengeResponseService challengeResponseService;
-    @Autowired
-    private UserService userService;
+
     @GetMapping
     public ResponseEntity<List<Challenge>> findAll(){
         List<Challenge> challenges = challengeService.findAll();
@@ -59,13 +51,19 @@ public class ChallengeResource {
 
     @GetMapping(value = "/response")
     public ResponseEntity<List<ChallengeResponse>> findAllResponse(){
-        List<ChallengeResponse> challengeResponses = challengeResponseService.findAll();
+        List<ChallengeResponse> challengeResponses = challengeService.findAllResponse();
         return ResponseEntity.ok().body(challengeResponses);
+    }
+
+    @GetMapping(value = "/response/{id}")
+    public ResponseEntity<ChallengeResponse> findByIdResponse(@PathVariable Long id){
+        ChallengeResponse challengeResponse = challengeService.findByIdResponse(id);
+        return ResponseEntity.ok().body(challengeResponse);
     }
 
     @PostMapping(value = "/response")
     public ResponseEntity<ChallengeResponse> insertResponse(@RequestBody AuxiliaryChallengeResponse auxiliar){
-        ChallengeResponse challengeResponse = challengeResponseService.insert(auxiliar);
+        ChallengeResponse challengeResponse = challengeService.insertResponse(auxiliar);
         return ResponseEntity.ok().body(challengeResponse);
     }
 

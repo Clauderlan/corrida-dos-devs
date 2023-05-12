@@ -20,6 +20,7 @@ public class ChallengeResponseService {
     private UserRepository userRepository;
     @Autowired
     private ChallengeRepository challengeRepository;
+
     public List<ChallengeResponse> findAll(){
         return challengeResponseRepository.findAll();
     }

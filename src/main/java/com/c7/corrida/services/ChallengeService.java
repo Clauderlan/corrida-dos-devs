@@ -1,8 +1,13 @@
 package com.c7.corrida.services;
 
 import com.c7.corrida.entities.Challenge;
+import com.c7.corrida.entities.ChallengeResponse;
+import com.c7.corrida.entities.User;
+import com.c7.corrida.entities.auxiliary.AuxiliaryChallengeResponse;
 import com.c7.corrida.entities.contents.ChallengeContent;
 import com.c7.corrida.repositories.ChallengeRepository;
+import com.c7.corrida.repositories.ChallengeResponseRepository;
+import com.c7.corrida.repositories.UserRepository;
 import com.c7.corrida.repositories.contents.ChallengeContentRepository;
 import com.c7.corrida.services.exceptions.DatabaseException;
 import com.c7.corrida.services.exceptions.ResourceNotFoundException;
@@ -22,15 +27,16 @@ public class ChallengeService {
     private ChallengeRepository challengeRepository;
     @Autowired
     private ChallengeContentRepository challengeContentRepository;
+    @Autowired
+    private ChallengeResponseRepository challengeResponseRepository;
+    @Autowired
+    private UserRepository userRepository;
+
 
     public List<Challenge> findAll(){
         return challengeRepository.findAll();
     }
     public Challenge findById(Long id){ return challengeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));}
-
-    public List<ChallengeContent> findByIdContent(Long id){
-        return challengeContentRepository.findByChallenge(id);
-    }
 
     public Challenge insert(Challenge challenge){
         if(challenge.getChallengeContent().size() > 0){
@@ -63,4 +69,36 @@ public class ChallengeService {
             throw new ResourceNotFoundException(id);
         }
     }
+
+    // Challenge Content routes
+
+    public List<ChallengeContent> findByIdContent(Long id){
+        return challengeContentRepository.findByChallenge(id);
+    }
+
+    // Challenge Response routes
+
+    public List<ChallengeResponse> findAllResponse(){
+        return challengeResponseRepository.findAll();
+    }
+    public ChallengeResponse findByIdResponse(Long id){
+        return challengeResponseRepository.findByUserId(id).orElseThrow(() -> new ResourceNotFoundException(id));
+    }
+    public ChallengeResponse insertResponse(AuxiliaryChallengeResponse auxiliaryChallengeResponse){
+        User user = auxiliaryChallengeResponse.getUser();
+        Challenge challenge = auxiliaryChallengeResponse.getChallenge();
+        String responseLink = auxiliaryChallengeResponse.getResponseLink();
+
+        ChallengeResponse challengeResponse = new ChallengeResponse(user, challenge, responseLink);
+        challengeResponse = challengeResponseRepository.save(challengeResponse);
+
+        challenge.getChallengeResponse().add(challengeResponse);
+        challengeRepository.save(challenge);
+
+        user.getChallengeResponse().add(challengeResponse);
+        userRepository.save(user);
+
+        return challengeResponse;
+    }
+
 }
