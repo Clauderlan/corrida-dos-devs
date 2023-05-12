@@ -37,6 +37,6 @@ public class ChallengeResponseService {
         user.getChallengeResponse().add(challengeResponse);
         userRepository.save(user);
 
-        return  challengeResponse;
+        return challengeResponse;
     }
 }

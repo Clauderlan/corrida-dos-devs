@@ -2,7 +2,7 @@ package com.c7.corrida.entities.pk;
 
 import com.c7.corrida.entities.Challenge;
 import com.c7.corrida.entities.User;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -45,13 +45,6 @@ public class ChallengeResponsePK implements Serializable {
         return Objects.equals(user, that.user) && Objects.equals(challenge, that.challenge);
     }
 
-    @Override
-    public String toString() {
-        return "ChallengeResponsePK{" +
-                "user=" + user +
-                ", challenge=" + challenge +
-                '}';
-    }
     @Override
     public int hashCode() {
         return Objects.hash(user, challenge);
