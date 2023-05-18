@@ -1,8 +1,10 @@
 package com.c7.corrida.resources;
 
 
+import com.c7.corrida.crypto.PasswordEncoder;
 import com.c7.corrida.entities.SocialNetwork;
 import com.c7.corrida.entities.User;
+import com.c7.corrida.entities.auxiliary.AuxiliaryLogin;
 import com.c7.corrida.entities.auxiliary.AuxiliarySocialNetwork;
 import com.c7.corrida.services.UserService;
 import com.c7.corrida.services.exceptions.ResourceNotFoundException;
@@ -30,9 +32,9 @@ public class UserResource {
         User user = userService.findById(id);
         return ResponseEntity.ok().body(user);
     }
-    @GetMapping(value = "/login/{login}")
-    public ResponseEntity<User> findyByLogin(@PathVariable String login){
-        User user = userService.findByLogin(login);
+    @GetMapping(value = "/email/{email}")
+    public ResponseEntity<User> findyByLogin(@PathVariable String email){
+        User user = userService.findByLogin(email);
         return ResponseEntity.ok().body(user);
     }
     @GetMapping(value = "/top")
@@ -63,16 +65,19 @@ public class UserResource {
         List<SocialNetwork> socialNetworks = userService.findAllSocial();
         return ResponseEntity.ok().body(socialNetworks);
     }
+
     @GetMapping(value = "/social/{id}")
     public ResponseEntity<SocialNetwork> findByidSocial(@PathVariable Long id){
         SocialNetwork socialNetwork = userService.findByIdSocial(id);
         return ResponseEntity.ok().body(socialNetwork);
     }
+
     @GetMapping(value = "/social/userid/{id}")
     public ResponseEntity<List<SocialNetwork>> findByUserIdSocial(@PathVariable Long id){
         List<SocialNetwork> socialNetworks= userService.findByUserIdSocial(id);
         return ResponseEntity.ok().body(socialNetworks);
     }
+
     @PostMapping(value = "/social")
     public ResponseEntity<SocialNetwork> insertSocial(@RequestBody AuxiliarySocialNetwork auxiliarySocialNetworkSocialNetwork){
         SocialNetwork socialNetwork = userService.insertSocial(auxiliarySocialNetworkSocialNetwork);
@@ -84,9 +89,18 @@ public class UserResource {
         socialNetwork = userService.updateSocial(id, socialNetwork);
         return ResponseEntity.ok().body(socialNetwork);
     }
-
     @DeleteMapping(value = "/social/{id}")
     public void deleteSocial(@PathVariable Long id){
         userService.deleteSocial(id);
+    }
+
+    // Authentication
+
+    @PostMapping(value = "/login")
+    public ResponseEntity<Boolean> authentication(@RequestBody AuxiliaryLogin json){
+        if(userService.login(json)){
+            return ResponseEntity.ok().body(true);
+        }
+        return ResponseEntity.status(401).body(false);
     }
 }

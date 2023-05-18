@@ -1,7 +1,9 @@
 package com.c7.corrida.services;
 
+import com.c7.corrida.crypto.PasswordEncoder;
 import com.c7.corrida.entities.SocialNetwork;
 import com.c7.corrida.entities.User;
+import com.c7.corrida.entities.auxiliary.AuxiliaryLogin;
 import com.c7.corrida.entities.auxiliary.AuxiliarySocialNetwork;
 import com.c7.corrida.repositories.CategoryRepository;
 import com.c7.corrida.repositories.SocialNetworkRepository;
@@ -27,6 +29,15 @@ public class UserService {
     @Autowired
     private SocialNetworkRepository socialNetworkRepository;
 
+    // Authentication
+
+    public boolean login(AuxiliaryLogin json){
+        User user = findByLogin(json.getLogin());
+        if(user == null){
+            throw new ResourceNotFoundException(1L);
+        }
+        return PasswordEncoder.matches(json.getPassword(), user.getPassword());
+    }
     public List<User> findAll(){
         return userRepository.findAll();
     }
@@ -46,6 +57,7 @@ public class UserService {
     }
 
     public User insert(User user){
+        user.setPassword(PasswordEncoder.encrypt(user.getPassword()));
         user = userRepository.save(user);
         user.getCategory().getUsers().add(user);
         categoryRepository.save(user.getCategory());
