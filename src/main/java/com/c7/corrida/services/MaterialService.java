@@ -1,6 +1,7 @@
 package com.c7.corrida.services;
 
 import com.c7.corrida.entities.Material;
+import com.c7.corrida.entities.contents.ChallengeContent;
 import com.c7.corrida.entities.contents.MaterialContent;
 import com.c7.corrida.repositories.MaterialRepository;
 import com.c7.corrida.repositories.contents.MaterialContentRepository;
@@ -43,6 +44,9 @@ public class MaterialService {
 
     public Material update(Long id, Material material){
         Material compare = findById(id);
+        for(MaterialContent x : material.getMaterialContent()){
+            materialContentRepository.save(x);
+        }
         updateData(compare, material);
         materialRepository.save(compare);
         return compare;
@@ -54,6 +58,7 @@ public class MaterialService {
         compare.setDetailedInformation(material.getDetailedInformation());
         compare.setUrlImage(material.getUrlImage());
         compare.setShortInformation(material.getShortInformation());
+        compare.getMaterialContent().addAll(material.getMaterialContent());
     }
 
     public void delete(Long id){
