@@ -95,7 +95,7 @@ public class UserService {
 
     public List<SocialNetwork> findByUserIdSocial(Long id){
         List<SocialNetwork> socialNetworks = socialNetworkRepository.findByUserId(id);
-        if(socialNetworks == null){
+        if(socialNetworks.size() == 0){
             throw new ResourceNotFoundException(1L);
         }
         return socialNetworks;

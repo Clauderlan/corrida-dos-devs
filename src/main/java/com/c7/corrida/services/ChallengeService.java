@@ -43,7 +43,10 @@ public class ChallengeService {
         return challengeRepository.save(challenge);
     }
     public Challenge update(Long id,Challenge challenge){
-        Challenge challengeCompare = challengeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
+        Challenge challengeCompare = findById(id);
+        for(ChallengeContent x : challenge.getChallengeContent()){
+            challengeContentRepository.save(x);
+        }
         updateData(challenge, challengeCompare);
         challengeRepository.save(challengeCompare);
         return challengeCompare;
@@ -55,6 +58,8 @@ public class ChallengeService {
         challengeCompare.setUrlImage(challenge.getUrlImage());
         challengeCompare.setDeadline(challenge.getDeadline());
         challengeCompare.setPoints(challenge.getPoints());
+        challengeCompare.getChallengeContent().addAll(challenge.getChallengeContent());
+
     }
     public void delete(Long id){
         try{
@@ -69,7 +74,11 @@ public class ChallengeService {
     // Challenge Content routes
 
     public List<ChallengeContent> findByIdContent(Long id){
-        return challengeContentRepository.findByChallenge(id);
+        List<ChallengeContent> challengeContents = challengeContentRepository.findByChallenge(id);
+        if(challengeContents.size() == 0){
+            throw new ResourceNotFoundException(id);
+        }
+        return challengeContents;
     }
 
     // Challenge Response routes
