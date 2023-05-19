@@ -1,13 +1,11 @@
 package com.c7.corrida.resources;
 
 
-import com.c7.corrida.crypto.PasswordEncoder;
 import com.c7.corrida.entities.SocialNetwork;
 import com.c7.corrida.entities.User;
 import com.c7.corrida.entities.auxiliary.AuxiliaryLogin;
 import com.c7.corrida.entities.auxiliary.AuxiliarySocialNetwork;
 import com.c7.corrida.services.UserService;
-import com.c7.corrida.services.exceptions.ResourceNotFoundException;
 import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -96,11 +94,4 @@ public class UserResource {
 
     // Authentication
 
-    @PostMapping(value = "/login")
-    public ResponseEntity<Boolean> authentication(@RequestBody AuxiliaryLogin json){
-        if(userService.login(json)){
-            return ResponseEntity.ok().body(true);
-        }
-        return ResponseEntity.status(401).body(false);
-    }
 }

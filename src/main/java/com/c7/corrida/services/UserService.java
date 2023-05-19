@@ -1,6 +1,6 @@
 package com.c7.corrida.services;
 
-import com.c7.corrida.crypto.PasswordEncoder;
+
 import com.c7.corrida.entities.SocialNetwork;
 import com.c7.corrida.entities.User;
 import com.c7.corrida.entities.auxiliary.AuxiliaryLogin;
@@ -31,13 +31,6 @@ public class UserService {
 
     // Authentication
 
-    public boolean login(AuxiliaryLogin json){
-        User user = findByLogin(json.getLogin());
-        if(user == null){
-            throw new ResourceNotFoundException(1L);
-        }
-        return PasswordEncoder.matches(json.getPassword(), user.getPassword());
-    }
     public List<User> findAll(){
         return userRepository.findAll();
     }
@@ -45,7 +38,11 @@ public class UserService {
         return userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
     }
     public User findByLogin(String login){
-        return userRepository.findByLogin(login);
+        User user = userRepository.findByLogin(login);
+        if(user == null){
+            throw new ResourceNotFoundException(1L);
+        }
+        return user;
     }
 
     public List<User> findTop(){
@@ -57,7 +54,6 @@ public class UserService {
     }
 
     public User insert(User user){
-        user.setPassword(PasswordEncoder.encrypt(user.getPassword()));
         user = userRepository.save(user);
         user.getCategory().getUsers().add(user);
         categoryRepository.save(user.getCategory());
@@ -98,7 +94,11 @@ public class UserService {
     }
 
     public List<SocialNetwork> findByUserIdSocial(Long id){
-        return socialNetworkRepository.findByUserId(id);
+        List<SocialNetwork> socialNetworks = socialNetworkRepository.findByUserId(id);
+        if(socialNetworks == null){
+            throw new ResourceNotFoundException(1L);
+        }
+        return socialNetworks;
     }
 
     public SocialNetwork insertSocial(AuxiliarySocialNetwork auxiliarySocialNetwork){
@@ -123,8 +123,12 @@ public class UserService {
     }
 
     public void deleteSocial(Long id){
-        socialNetworkRepository.deleteById(id);
+        try {
+            socialNetworkRepository.deleteById(id);
+        }catch (DataIntegrityViolationException e){
+            throw new DatabaseException(e.getMessage());
+        }catch (ResourceNotFoundException e){
+            throw new ResourceNotFoundException(id);
+        }
     }
-
-
 }
