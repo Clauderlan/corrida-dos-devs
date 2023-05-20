@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.Instant;
 
@@ -32,6 +33,9 @@ public class TestConfig implements CommandLineRunner {
     private SocialNetworkRepository socialNetworkRepository;
     @Autowired
     private ChallengeResponseRepository challengeResponseRepository;
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
     @Override
     public void run(String... args) throws Exception {
 
@@ -42,7 +46,7 @@ public class TestConfig implements CommandLineRunner {
         userRepository.save(user1);
         user1.setCategory(cc1);
         cc1.getUsers().add(user1);
-
+        user1.setPassword(bCryptPasswordEncoder.encode(user1.getPassword()));
         userRepository.save(user1);
         categoryRepository.save(cc1);
 

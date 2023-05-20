@@ -13,6 +13,8 @@ import com.c7.corrida.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -20,7 +22,7 @@ import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsManager {
 
     @Autowired
     private UserRepository userRepository;
@@ -43,6 +45,9 @@ public class UserService {
             throw new ResourceNotFoundException(1L);
         }
         return user;
+    }
+    public User loadUserByUsername(String username){
+        return userRepository.findByName(username);
     }
 
     public List<User> findTop(){
@@ -130,5 +135,30 @@ public class UserService {
         }catch (ResourceNotFoundException e){
             throw new ResourceNotFoundException(id);
         }
+    }
+
+    @Override
+    public void createUser(UserDetails user) {
+        insert((User) user);
+    }
+
+    @Override
+    public void updateUser(UserDetails user) {
+
+    }
+
+    @Override
+    public void deleteUser(String username) {
+        delete(1L);
+    }
+
+    @Override
+    public void changePassword(String oldPassword, String newPassword) {
+        System.out.println("VASCO");
+    }
+
+    @Override
+    public boolean userExists(String username) {
+        return userRepository.findByName(username) != null;
     }
 }

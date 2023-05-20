@@ -3,6 +3,7 @@ package com.c7.corrida.entities;
 import com.c7.corrida.entities.enums.CategoryRule;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "tb_category")
-public class Category implements Serializable {
+public class Category implements Serializable, GrantedAuthority {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -61,5 +62,10 @@ public class Category implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    @Override
+    public String getAuthority() {
+        return getCategoryRule().name();
     }
 }
