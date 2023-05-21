@@ -3,7 +3,6 @@ package com.c7.corrida.services;
 
 import com.c7.corrida.entities.SocialNetwork;
 import com.c7.corrida.entities.User;
-import com.c7.corrida.entities.auxiliary.AuxiliaryLogin;
 import com.c7.corrida.entities.auxiliary.AuxiliarySocialNetwork;
 import com.c7.corrida.repositories.CategoryRepository;
 import com.c7.corrida.repositories.SocialNetworkRepository;
@@ -16,9 +15,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 @Service
