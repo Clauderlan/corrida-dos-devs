@@ -150,7 +150,7 @@ public class UserService implements UserDetailsManager {
 
     @Override
     public void changePassword(String oldPassword, String newPassword) {
-        System.out.println("VASCO");
+
     }
 
     @Override

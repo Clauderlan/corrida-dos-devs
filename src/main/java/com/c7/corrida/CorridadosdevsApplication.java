@@ -46,11 +46,7 @@ public class CorridadosdevsApplication {
 							(auxiliaryLogin.getUsername(), auxiliaryLogin.getPassword());
 			Authentication authenticate = this.authenticationManager.authenticate(authenticationToken);
 			User user = (User) authenticate.getPrincipal();
-
-			System.out.println("PASSEI ?");
 			return tokenService.generatorToken(user);
 		}
-
 	}
-
 }

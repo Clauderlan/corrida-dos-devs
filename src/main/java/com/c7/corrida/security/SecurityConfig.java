@@ -1,5 +1,6 @@
 package com.c7.corrida.security;
 
+import com.c7.corrida.security.filters.FilterToken;
 import com.c7.corrida.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -13,6 +14,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -20,6 +22,9 @@ public class SecurityConfig{
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private FilterToken filterToken;
 
     @Bean
     public AuthenticationManager authenticationManager
@@ -35,6 +40,7 @@ public class SecurityConfig{
                     authorizeConfig.anyRequest().authenticated();
                 }
         )
+                .addFilterBefore(filterToken, UsernamePasswordAuthenticationFilter.class)
                 .authenticationProvider(jpaDaoAuthenticationProvider())
                 .build();
     }
