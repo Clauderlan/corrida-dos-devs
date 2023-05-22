@@ -56,10 +56,17 @@ public class UserService implements UserDetailsManager {
         return users;
     }
 
-    public User insert(User user){
+    public void alreadyExists(User user){
         if(userExists(user.getUsername())){
             throw new ResourceExistsException(user.getName());
         }
+        if(userRepository.existsByEmail(user.getEmail())){
+            throw new ResourceExistsException(user.getEmail());
+        }
+    }
+
+    public User insert(User user){
+        alreadyExists(user);
         user = userRepository.save(user);
         user.setPassword(SecurityConfig.passwordEncoder().encode(user.getPassword()));
         user.getCategory().getUsers().add(user);
@@ -68,9 +75,7 @@ public class UserService implements UserDetailsManager {
     }
 
     public User update(Long id, User user){
-        if(userExists(user.getUsername())){
-            throw new ResourceExistsException(user.getName());
-        }
+        alreadyExists(user);
         User userCompare = findById(id);
         updateData(user, userCompare);
         userRepository.save(userCompare);
@@ -78,6 +83,7 @@ public class UserService implements UserDetailsManager {
     }
 
     private void updateData(User user, User userCompare) {
+        alreadyExists(userCompare);
         userCompare.setName(user.getName());
         userCompare.setEmail(user.getEmail());
         userCompare.setBio(user.getBio());
