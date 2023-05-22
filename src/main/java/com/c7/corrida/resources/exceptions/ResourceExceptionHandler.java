@@ -40,18 +40,4 @@ public class ResourceExceptionHandler {
         return ResponseEntity.status(status).body(standardError);
     }
 
-    @ExceptionHandler(TokensExpiredException.class)
-    public ResponseEntity<StandardError> tokenExpired(TokensExpiredException exception, HttpServletRequest request){
-        HttpStatus status = HttpStatus.UNAUTHORIZED;
-        String error = "Token error";
-        StandardError standardError = new StandardError(
-                Instant.now(),
-                status.value(),
-                error,
-                exception.getMessage(),
-                request.getRequestURI()
-        );
-        return ResponseEntity.status(status).body(standardError);
-    }
-
 }

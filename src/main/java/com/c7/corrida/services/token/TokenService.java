@@ -1,14 +1,18 @@
 package com.c7.corrida.services.token;
 
 import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.TokenExpiredException;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.c7.corrida.entities.User;
+import com.c7.corrida.services.exceptions.ResourceNotFoundException;
 import com.c7.corrida.services.exceptions.TokensExpiredException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.Date;
 
 @Service
 public class TokenService {
@@ -25,12 +29,10 @@ public class TokenService {
     }
 
     public String getSubject(String token) {
-        try {
-            return JWT.require(Algorithm.HMAC256("secret"))
-                    .withIssuer("corrida")
-                    .build().verify(token).getSubject();
-        }catch (TokenExpiredException e){
-            throw new TokensExpiredException(e.getMessage());
-        }
+        JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256("secret"))
+                .withIssuer("corrida").build();
+        DecodedJWT verify = jwtVerifier.verify(token);
+        return verify.getSubject();
     }
+
 }

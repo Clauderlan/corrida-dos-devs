@@ -1,6 +1,8 @@
 package com.c7.corrida.security.filters;
 
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.c7.corrida.entities.User;
+import com.c7.corrida.security.filters.exceptions.JWTExceptions;
 import com.c7.corrida.services.UserService;
 import com.c7.corrida.services.token.TokenService;
 import jakarta.servlet.FilterChain;
@@ -22,7 +24,6 @@ public class FilterToken extends OncePerRequestFilter {
     private TokenService tokenService;
     @Autowired
     private UserService userService;
-
     String token;
 
     @Override
@@ -31,13 +32,19 @@ public class FilterToken extends OncePerRequestFilter {
         String authorizationHeader = request.getHeader("Authorization");
         if(authorizationHeader != null){
             this.token = authorizationHeader.replace("Bearer ", "");
-            String subject = this.tokenService.getSubject(token);
-            User user = userService.loadUserByUsername(subject);
-            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                    user, null, user.getAuthorities()
-            );
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+            try {
+                String subject = this.tokenService.getSubject(token);
+                User user = userService.loadUserByUsername(subject);
+                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                        user, null, user.getAuthorities()
+                );
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }catch (TokenExpiredException e){
+                JWTExceptions.expiredError(response);
+                return;
+            }
         }
+
         // Pass the request
         filterChain.doFilter(request, response);
     }

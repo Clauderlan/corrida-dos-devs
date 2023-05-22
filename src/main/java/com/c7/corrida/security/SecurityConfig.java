@@ -45,7 +45,6 @@ public class SecurityConfig{
                     authorizeConfig.requestMatchers("/challenge/**").hasAuthority("ADMIN");
                     authorizeConfig.requestMatchers("/material").permitAll();
                     authorizeConfig.requestMatchers("/material/**").hasAuthority("ADMIN");
-                    authorizeConfig.requestMatchers("/category").permitAll();
                     authorizeConfig.requestMatchers("/category/**").hasAuthority("ADMIN");
                     authorizeConfig.requestMatchers(HttpMethod.POST, "/login").permitAll();
                     authorizeConfig.anyRequest().authenticated();

@@ -140,12 +140,12 @@ public class UserService implements UserDetailsManager {
 
     @Override
     public void updateUser(UserDetails user) {
-
+        update(loadUserByUsername(user.getUsername()).getId(), (User) user);
     }
 
     @Override
     public void deleteUser(String username) {
-        delete(1L);
+        delete(loadUserByUsername(username).getId());
     }
 
     @Override
