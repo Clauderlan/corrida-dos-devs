@@ -40,12 +40,12 @@ public class SecurityConfig{
                 .authorizeHttpRequests(
                 authorizeConfig -> {
                     authorizeConfig.requestMatchers("/").permitAll();
-                    authorizeConfig.requestMatchers("/users").permitAll();
+                    authorizeConfig.requestMatchers(HttpMethod.GET,"/users").permitAll();
                     authorizeConfig.requestMatchers(HttpMethod.POST,"/users").permitAll();
                     authorizeConfig.requestMatchers("/users/**").hasAuthority("ADMIN");
-                    authorizeConfig.requestMatchers("/challenge").permitAll();
+                    authorizeConfig.requestMatchers(HttpMethod.GET,"/challenge").permitAll();
                     authorizeConfig.requestMatchers("/challenge/**").hasAuthority("ADMIN");
-                    authorizeConfig.requestMatchers("/material").permitAll();
+                    authorizeConfig.requestMatchers(HttpMethod.GET,"/material").permitAll();
                     authorizeConfig.requestMatchers("/material/**").hasAuthority("ADMIN");
                     authorizeConfig.requestMatchers("/category/**").hasAuthority("ADMIN");
                     authorizeConfig.requestMatchers(HttpMethod.POST, "/login").permitAll();

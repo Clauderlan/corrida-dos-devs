@@ -29,14 +29,26 @@ public class UserService implements UserDetailsManager {
     private CategoryRepository categoryRepository;
     @Autowired
     private SocialNetworkRepository socialNetworkRepository;
-    // Authentication
+
+    public void alreadyExists(User user){
+        if(userExists(user.getUsername())){
+            throw new ResourceExistsException(user.getName());
+        }
+        if(userRepository.existsByEmail(user.getEmail())){
+            throw new ResourceExistsException(user.getEmail());
+        }
+    }
+
+    // GET Methods
 
     public List<User> findAll(){
         return userRepository.findAll();
     }
+
     public User findById(Long id){
         return userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
     }
+
     public User findByLogin(String login){
         User user = userRepository.findByLogin(login);
         if(user == null){
@@ -44,6 +56,7 @@ public class UserService implements UserDetailsManager {
         }
         return user;
     }
+
     public User loadUserByUsername(String username){
         return userRepository.findByName(username);
     }
@@ -56,14 +69,7 @@ public class UserService implements UserDetailsManager {
         return users;
     }
 
-    public void alreadyExists(User user){
-        if(userExists(user.getUsername())){
-            throw new ResourceExistsException(user.getName());
-        }
-        if(userRepository.existsByEmail(user.getEmail())){
-            throw new ResourceExistsException(user.getEmail());
-        }
-    }
+    // POST, PUT, DELETE Methods
 
     public User insert(User user){
         alreadyExists(user);
@@ -100,6 +106,7 @@ public class UserService implements UserDetailsManager {
     }
 
     // Social Network
+    // GET Methods
 
     public List<SocialNetwork> findAllSocial(){
         return socialNetworkRepository.findAll();
@@ -116,6 +123,8 @@ public class UserService implements UserDetailsManager {
         }
         return socialNetworks;
     }
+
+    // POST, PUT, DELETE Methods
 
     public SocialNetwork insertSocial(AuxiliarySocialNetwork auxiliarySocialNetwork){
         User user = auxiliarySocialNetwork.getUser();
@@ -147,6 +156,8 @@ public class UserService implements UserDetailsManager {
             throw new ResourceNotFoundException(id);
         }
     }
+
+    // UserDetails Methods
 
     @Override
     public void createUser(UserDetails user) {

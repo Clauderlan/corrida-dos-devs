@@ -1,11 +1,13 @@
 package com.c7.corrida.services;
 
 import com.c7.corrida.entities.Material;
+import com.c7.corrida.entities.User;
 import com.c7.corrida.entities.contents.ChallengeContent;
 import com.c7.corrida.entities.contents.MaterialContent;
 import com.c7.corrida.repositories.MaterialRepository;
 import com.c7.corrida.repositories.contents.MaterialContentRepository;
 import com.c7.corrida.services.exceptions.DatabaseException;
+import com.c7.corrida.services.exceptions.ResourceExistsException;
 import com.c7.corrida.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -21,6 +23,9 @@ public class MaterialService {
 
     @Autowired
     private MaterialContentRepository materialContentRepository;
+
+    // GET Methods
+
     public List<Material> findAll(){
         return materialRepository.findAll();
     }
@@ -33,7 +38,16 @@ public class MaterialService {
         return materialContentRepository.findByMaterial(id);
     }
 
+    public void alreadyExists(Material material){
+        if(materialRepository.existsByTitle(material.getTitle())){
+            throw new ResourceExistsException(material.getTitle());
+        }
+    }
+
+    // POST, PUT, DELETE Methods
+
     public Material insert(Material material){
+        alreadyExists(material);
         if(material.getMaterialContent().size() > 0){
             for(MaterialContent x : material.getMaterialContent()){
                 materialContentRepository.save(x);
@@ -43,6 +57,7 @@ public class MaterialService {
     }
 
     public Material update(Long id, Material material){
+        alreadyExists(material);
         Material compare = findById(id);
         for(MaterialContent x : material.getMaterialContent()){
             materialContentRepository.save(x);
