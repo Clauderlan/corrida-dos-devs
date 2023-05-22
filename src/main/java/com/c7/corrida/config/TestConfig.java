@@ -42,6 +42,11 @@ public class TestConfig implements CommandLineRunner {
         Category cc1 = new Category(null, CategoryRule.ADMIN);
         categoryRepository.save(cc1);
 
+        Category cc2 = new Category(null, CategoryRule.STUDENT);
+        categoryRepository.save(cc2);
+
+        System.out.println("VAO)SADO)A)OSD)OADO)AO)DSAO)_DOA)_D");
+        System.out.println(cc1.getAuthority());
         User user1 = new User(null,"Claudior", "9999","claudior@gmail.com",20,"VASCO");
         userRepository.save(user1);
         user1.setCategory(cc1);
@@ -49,6 +54,15 @@ public class TestConfig implements CommandLineRunner {
         user1.setPassword(bCryptPasswordEncoder.encode(user1.getPassword()));
         userRepository.save(user1);
         categoryRepository.save(cc1);
+
+        User user2 = new User(null,"Claudio", "9999","claudio@gmail.com",20,"VASCO");
+        userRepository.save(user2);
+        user2.setCategory(cc2);
+        user2.setPassword(bCryptPasswordEncoder.encode(user2.getPassword()));
+        cc2.getUsers().add(user2);
+        userRepository.save(user2);
+        categoryRepository.save(cc2);
+
 
         SocialNetwork sn1 = new SocialNetwork(null, "@VASCO");
         SocialNetwork sn2 = new SocialNetwork(null, "@FLU");

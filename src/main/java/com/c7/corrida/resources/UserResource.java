@@ -7,6 +7,7 @@ import com.c7.corrida.entities.auxiliary.AuxiliaryLogin;
 import com.c7.corrida.entities.auxiliary.AuxiliarySocialNetwork;
 import com.c7.corrida.services.UserService;
 import jakarta.annotation.Resource;
+import jakarta.annotation.security.RolesAllowed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,11 +21,14 @@ public class UserResource {
 
     @Autowired
     private UserService userService;
+
     @GetMapping
     public ResponseEntity<List<User>> findAll(){
         List<User> users = userService.findAll();
         return ResponseEntity.ok().body(users);
     }
+
+
     @GetMapping(value = "/{id}")
     public ResponseEntity<User> findById(@PathVariable Long id){
         User user = userService.findById(id);
@@ -35,6 +39,7 @@ public class UserResource {
         User user = userService.findByLogin(email);
         return ResponseEntity.ok().body(user);
     }
+
     @GetMapping(value = "/top")
     public ResponseEntity<List<User>> findTop(){
         List<User> users = userService.findTop();

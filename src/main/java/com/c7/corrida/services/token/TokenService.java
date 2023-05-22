@@ -2,7 +2,9 @@ package com.c7.corrida.services.token;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.c7.corrida.entities.User;
+import com.c7.corrida.services.exceptions.TokensExpiredException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -23,8 +25,12 @@ public class TokenService {
     }
 
     public String getSubject(String token) {
-        return JWT.require(Algorithm.HMAC256("secret"))
-                .withIssuer("corrida")
-                .build().verify(token).getSubject();
+        try {
+            return JWT.require(Algorithm.HMAC256("secret"))
+                    .withIssuer("corrida")
+                    .build().verify(token).getSubject();
+        }catch (TokenExpiredException e){
+            throw new TokensExpiredException(e.getMessage());
+        }
     }
 }

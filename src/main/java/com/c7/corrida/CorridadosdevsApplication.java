@@ -30,20 +30,12 @@ public class CorridadosdevsApplication {
 		@Autowired
 		private TokenService tokenService;
 
-		@GetMapping("/")
-		String home(){
-			return "<h1> TELA PRINCIPAL </h1>";
-		}
-
-		@GetMapping("/login")
-		String loginGet(){
-			return "VASCO PORRA ";
-		}
 		@PostMapping("/login")
 		String login(@RequestBody AuxiliaryLogin auxiliaryLogin){
 			UsernamePasswordAuthenticationToken authenticationToken =
 					new UsernamePasswordAuthenticationToken
 							(auxiliaryLogin.getUsername(), auxiliaryLogin.getPassword());
+
 			Authentication authenticate = this.authenticationManager.authenticate(authenticationToken);
 			User user = (User) authenticate.getPrincipal();
 			return tokenService.generatorToken(user);

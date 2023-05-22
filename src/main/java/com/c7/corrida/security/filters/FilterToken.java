@@ -38,6 +38,7 @@ public class FilterToken extends OncePerRequestFilter {
             );
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
+        // Pass the request
         filterChain.doFilter(request, response);
     }
 }

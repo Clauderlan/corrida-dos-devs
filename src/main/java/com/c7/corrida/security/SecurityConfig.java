@@ -10,6 +10,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -33,9 +34,19 @@ public class SecurityConfig{
     }
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        return httpSecurity.csrf().disable().authorizeHttpRequests(
+        return httpSecurity.
+                csrf().disable()
+                .authorizeHttpRequests(
                 authorizeConfig -> {
                     authorizeConfig.requestMatchers("/").permitAll();
+                    authorizeConfig.requestMatchers("/users").permitAll();
+                    authorizeConfig.requestMatchers("/users/**").hasAuthority("ADMIN");
+                    authorizeConfig.requestMatchers("/challenge").permitAll();
+                    authorizeConfig.requestMatchers("/challenge/**").hasAuthority("ADMIN");
+                    authorizeConfig.requestMatchers("/material").permitAll();
+                    authorizeConfig.requestMatchers("/material/**").hasAuthority("ADMIN");
+                    authorizeConfig.requestMatchers("/category").permitAll();
+                    authorizeConfig.requestMatchers("/category/**").hasAuthority("ADMIN");
                     authorizeConfig.requestMatchers(HttpMethod.POST, "/login").permitAll();
                     authorizeConfig.anyRequest().authenticated();
                 }

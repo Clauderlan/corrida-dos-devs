@@ -3,6 +3,7 @@ package com.c7.corrida.entities;
 
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serializable;
@@ -69,9 +70,7 @@ public class User implements Serializable, UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Set<Category> authorities = new HashSet<>();
-        authorities.add(category);
-        return authorities;
+        return List.of(new SimpleGrantedAuthority(category.getAuthority()));
     }
 
     public String getPassword() {
