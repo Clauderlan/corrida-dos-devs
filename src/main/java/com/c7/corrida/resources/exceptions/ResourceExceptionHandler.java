@@ -1,8 +1,8 @@
 package com.c7.corrida.resources.exceptions;
 
 import com.c7.corrida.services.exceptions.DatabaseException;
+import com.c7.corrida.services.exceptions.ResourceExistsException;
 import com.c7.corrida.services.exceptions.ResourceNotFoundException;
-import com.c7.corrida.services.exceptions.TokensExpiredException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,4 +40,17 @@ public class ResourceExceptionHandler {
         return ResponseEntity.status(status).body(standardError);
     }
 
+    @ExceptionHandler(ResourceExistsException.class)
+    public ResponseEntity<StandardError> alreadyExists(ResourceExistsException e, HttpServletRequest request){
+        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+        String error = "Resource already exists";
+        StandardError standardError = new StandardError(
+                Instant.now(),
+                status.value(),
+                error,
+                e.getMessage(),
+                request.getRequestURI()
+        );
+        return ResponseEntity.status(status).body(standardError);
+    }
 }

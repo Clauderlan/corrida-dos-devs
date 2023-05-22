@@ -32,6 +32,7 @@ public class SecurityConfig{
             (AuthenticationConfiguration authenticationConfiguration) throws Exception{
         return authenticationConfiguration.getAuthenticationManager();
     }
+
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity.
@@ -40,6 +41,7 @@ public class SecurityConfig{
                 authorizeConfig -> {
                     authorizeConfig.requestMatchers("/").permitAll();
                     authorizeConfig.requestMatchers("/users").permitAll();
+                    authorizeConfig.requestMatchers(HttpMethod.POST,"/users").permitAll();
                     authorizeConfig.requestMatchers("/users/**").hasAuthority("ADMIN");
                     authorizeConfig.requestMatchers("/challenge").permitAll();
                     authorizeConfig.requestMatchers("/challenge/**").hasAuthority("ADMIN");
@@ -51,19 +53,12 @@ public class SecurityConfig{
                 }
         )
                 .addFilterBefore(filterToken, UsernamePasswordAuthenticationFilter.class)
-                .authenticationProvider(jpaDaoAuthenticationProvider())
                 .build();
     }
 
-    public DaoAuthenticationProvider jpaDaoAuthenticationProvider() {
-        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setUserDetailsService(userService);
-        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
-        return daoAuthenticationProvider;
-    }
 
     @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
+    public static BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(4);
     }
 

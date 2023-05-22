@@ -7,12 +7,15 @@ import com.c7.corrida.entities.auxiliary.AuxiliarySocialNetwork;
 import com.c7.corrida.repositories.CategoryRepository;
 import com.c7.corrida.repositories.SocialNetworkRepository;
 import com.c7.corrida.repositories.UserRepository;
+import com.c7.corrida.security.SecurityConfig;
 import com.c7.corrida.services.exceptions.DatabaseException;
+import com.c7.corrida.services.exceptions.ResourceExistsException;
 import com.c7.corrida.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -26,7 +29,6 @@ public class UserService implements UserDetailsManager {
     private CategoryRepository categoryRepository;
     @Autowired
     private SocialNetworkRepository socialNetworkRepository;
-
     // Authentication
 
     public List<User> findAll(){
@@ -55,13 +57,20 @@ public class UserService implements UserDetailsManager {
     }
 
     public User insert(User user){
+        if(userExists(user.getUsername())){
+            throw new ResourceExistsException(user.getName());
+        }
         user = userRepository.save(user);
+        user.setPassword(SecurityConfig.passwordEncoder().encode(user.getPassword()));
         user.getCategory().getUsers().add(user);
         categoryRepository.save(user.getCategory());
         return user;
     }
 
     public User update(Long id, User user){
+        if(userExists(user.getUsername())){
+            throw new ResourceExistsException(user.getName());
+        }
         User userCompare = findById(id);
         updateData(user, userCompare);
         userRepository.save(userCompare);
@@ -155,6 +164,6 @@ public class UserService implements UserDetailsManager {
 
     @Override
     public boolean userExists(String username) {
-        return userRepository.findByName(username) != null;
+        return userRepository.existsByName(username);
     }
 }

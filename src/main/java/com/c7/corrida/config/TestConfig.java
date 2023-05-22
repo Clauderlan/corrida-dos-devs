@@ -36,6 +36,7 @@ public class TestConfig implements CommandLineRunner {
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @Override
     public void run(String... args) throws Exception {
 
@@ -45,7 +46,6 @@ public class TestConfig implements CommandLineRunner {
         Category cc2 = new Category(null, CategoryRule.STUDENT);
         categoryRepository.save(cc2);
 
-        System.out.println("VAO)SADO)A)OSD)OADO)AO)DSAO)_DOA)_D");
         System.out.println(cc1.getAuthority());
         User user1 = new User(null,"Claudior", "9999","claudior@gmail.com",20,"VASCO");
         userRepository.save(user1);
