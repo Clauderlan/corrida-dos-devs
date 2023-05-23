@@ -4,6 +4,8 @@ Website : Learn programming basics with challenges and studying material.
 ![NPM](https://img.shields.io/npm/l/react)
 # What i learned so far
 - Java Spring Security
+- Security authentication with JWT
+- Security authorization with authorities
 ## More about
 - Java Spring Web
 - H2 Database Engine
