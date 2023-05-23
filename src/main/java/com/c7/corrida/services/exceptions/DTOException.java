@@ -11,7 +11,6 @@ public class DTOException {
     }
 
     public Integer getStatus() {
-
         return status;
     }
 

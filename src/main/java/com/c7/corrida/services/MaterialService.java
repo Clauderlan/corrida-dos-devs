@@ -24,6 +24,12 @@ public class MaterialService {
     @Autowired
     private MaterialContentRepository materialContentRepository;
 
+    public void alreadyExists(Material material){
+        if(materialRepository.existsByTitle(material.getTitle())){
+            throw new ResourceExistsException(material.getTitle());
+        }
+    }
+
     // GET Methods
 
     public List<Material> findAll(){
@@ -36,12 +42,6 @@ public class MaterialService {
 
     public List<MaterialContent> findByIdContent(Long id){
         return materialContentRepository.findByMaterial(id);
-    }
-
-    public void alreadyExists(Material material){
-        if(materialRepository.existsByTitle(material.getTitle())){
-            throw new ResourceExistsException(material.getTitle());
-        }
     }
 
     // POST, PUT, DELETE Methods

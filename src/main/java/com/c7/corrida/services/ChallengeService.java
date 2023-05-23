@@ -9,11 +9,15 @@ import com.c7.corrida.repositories.ChallengeRepository;
 import com.c7.corrida.repositories.ChallengeResponseRepository;
 import com.c7.corrida.repositories.UserRepository;
 import com.c7.corrida.repositories.contents.ChallengeContentRepository;
+import com.c7.corrida.services.exceptions.DTOException;
 import com.c7.corrida.services.exceptions.DatabaseException;
+import com.c7.corrida.services.exceptions.ResourceExistsException;
 import com.c7.corrida.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+
+import java.time.Instant;
 import java.util.List;
 
 @Service
@@ -28,6 +32,11 @@ public class ChallengeService {
     @Autowired
     private UserRepository userRepository;
 
+    public void alreadyExists(Challenge challenge){
+        if(challengeRepository.existsByTitle(challenge.getTitle())){
+            throw new ResourceExistsException(challenge.getTitle());
+        }
+    }
 
     public List<Challenge> findAll(){
         return challengeRepository.findAll();
@@ -35,6 +44,7 @@ public class ChallengeService {
     public Challenge findById(Long id){ return challengeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));}
 
     public Challenge insert(Challenge challenge){
+        alreadyExists(challenge);
         if(challenge.getChallengeContent().size() > 0){
             for(ChallengeContent x : challenge.getChallengeContent()){
                 challengeContentRepository.save(x);
@@ -43,6 +53,7 @@ public class ChallengeService {
         return challengeRepository.save(challenge);
     }
     public Challenge update(Long id,Challenge challenge){
+        alreadyExists(challenge);
         Challenge challengeCompare = findById(id);
         for(ChallengeContent x : challenge.getChallengeContent()){
             challengeContentRepository.save(x);
