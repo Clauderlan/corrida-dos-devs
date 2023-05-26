@@ -89,7 +89,6 @@ public class UserService implements UserDetailsManager {
     }
 
     private void updateData(User user, User userCompare) {
-        alreadyExists(userCompare);
         userCompare.setName(user.getName());
         userCompare.setEmail(user.getEmail());
         userCompare.setBio(user.getBio());
