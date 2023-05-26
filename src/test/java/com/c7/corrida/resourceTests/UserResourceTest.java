@@ -31,7 +31,7 @@ public class UserResourceTest {
         )
                 .andExpect(status().isOk());
     }
-    
+
 
     @Test
     public void User_Post_Test() throws Exception{
