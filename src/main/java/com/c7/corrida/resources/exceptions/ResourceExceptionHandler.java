@@ -42,7 +42,7 @@ public class ResourceExceptionHandler {
 
     @ExceptionHandler(ResourceExistsException.class)
     public ResponseEntity<StandardError> alreadyExists(ResourceExistsException e, HttpServletRequest request){
-        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+        HttpStatus status = HttpStatus.CONFLICT;
         String error = "Resource already exists";
         StandardError standardError = new StandardError(
                 Instant.now(),

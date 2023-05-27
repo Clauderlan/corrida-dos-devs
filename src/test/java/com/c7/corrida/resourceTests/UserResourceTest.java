@@ -1,9 +1,12 @@
 package com.c7.corrida.resourceTests;
 
+import com.c7.corrida.entities.Category;
 import com.c7.corrida.entities.User;
+import com.c7.corrida.entities.enums.CategoryRule;
 import com.c7.corrida.resources.UserResource;
 import com.c7.corrida.security.SecurityConfig;
 import com.c7.corrida.services.UserService;
+import com.c7.corrida.services.exceptions.ResourceExistsException;
 import com.c7.corrida.services.exceptions.ResourceNotFoundException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -19,6 +22,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.hamcrest.CoreMatchers.is;
+
 
 @SpringBootTest
 @AutoConfigureMockMvc(addFilters = false) // Security config OFF
@@ -67,5 +72,71 @@ public class UserResourceTest {
                 .andDo(print());
 
     }
+
+    @Test
+    public void testPost_ShouldReturn_409Message() throws Exception{
+        Category cc1 = new Category(1L, CategoryRule.ADMIN);
+        User user = new User(null,"Claudior", "9999","claudior@gmail.com",20,"VASCO");
+        user.setCategory(cc1);
+
+        String userToRequestBody = "{\n" +
+                "        \"name\": \"È O USEER NE VIDA ?\",\n" +
+                "        \"password\": \"VASCO\",\n" +
+                "        \"email\": \"claudior@gmail.com\",\n" +
+                "        \"rankPoints\": 25,\n" +
+                "        \"bio\": \"VASCO\",\n" +
+                "        \"category\": {\n" +
+                "            \"id\" : 1,\n" +
+                "            \"categoryRule\" : \"ADMIN\"\n" +
+                "        }\n" +
+                "    }";
+
+        Mockito.when(userService.insert(user)
+        ).thenThrow(ResourceExistsException.class);
+
+        mockMvc.perform(
+                post(END_POINT_PATH)
+                        .contentType("application/json")
+                        .content(userToRequestBody)
+        )
+                .andExpect(status().isConflict())
+                .andDo(print());
+    }
+
+    @Test
+    public void testPost_ShouldReturn_200Message() throws Exception{
+
+        User user = new User(null,"Claudior", "9999","claudior@gmail.com",20,"VASCO");
+        String userToRequestBody = "{\n" +
+                "        \"name\": \"È O USEER NE VIDA ?\",\n" +
+                "        \"password\": \"VASCO\",\n" +
+                "        \"email\": \"claudior@gmail.com\",\n" +
+                "        \"rankPoints\": 25,\n" +
+                "        \"bio\": \"VASCO\",\n" +
+                "        \"category\": {\n" +
+                "            \"id\" : 1,\n" +
+                "            \"categoryRule\" : \"ADMIN\"\n" +
+                "        }\n" +
+                "    }";
+
+        Mockito.when(
+                userService.insert(user)
+        ).thenReturn(user);
+        mockMvc.perform(
+                post(END_POINT_PATH).contentType("application/json")
+                        .contentType("application/json")
+                        .content(userToRequestBody)
+        )
+                .andExpect(status().isOk())
+                .andExpect(
+                        content().contentType("application/json")
+                )
+                .andExpect(
+                        jsonPath("$.rankPoints", is(25))
+                )
+                .andDo(print());
+
+    }
+
 
 }
