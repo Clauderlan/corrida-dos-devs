@@ -6,6 +6,8 @@ Website : Learn programming basics with challenges and studying material.
 - Java Spring Security
 - Security authentication with JWT
 - Security authorization with authorities
+- Java Spring Test
+- Tests with MockMVC
 ## More about
 - Java Spring Web
 - H2 Database Engine
