@@ -1,22 +1,31 @@
 package com.c7.corrida.resourceTests;
 
-import com.c7.corrida.entities.Category;
 import com.c7.corrida.entities.User;
-import com.c7.corrida.entities.enums.CategoryRule;
-import com.c7.corrida.repositories.UserRepository;
+import com.c7.corrida.resources.UserResource;
+import com.c7.corrida.security.SecurityConfig;
+import com.c7.corrida.services.UserService;
+import com.c7.corrida.services.exceptions.ResourceNotFoundException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-
 @SpringBootTest
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc(addFilters = false) // Security config OFF
+
+//@WebMvcTest(UserResource.class)
 public class UserResourceTest {
+    private static final String END_POINT_PATH = "/users";
 
     @Autowired
     private MockMvc mockMvc;
@@ -24,29 +33,39 @@ public class UserResourceTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @MockBean
+    private UserService userService;
+
     @Test
-    public void User_FindAll_Test() throws Exception{
+    public void testGet_ShouldReturn_404Message() throws Exception{
+        Long userId = 100L;
+
+        Mockito.when(userService.findById(userId)).thenThrow(ResourceNotFoundException.class);
+
         mockMvc.perform(
-                get("/users")
+                get(END_POINT_PATH + "/{code}", userId)
         )
-                .andExpect(status().isOk());
-    }
+                .andExpect(status().isNotFound())
+                .andDo(print());
 
+    }
 
     @Test
-    public void User_Post_Test() throws Exception{
-        Category cc1 = new Category(1L, CategoryRule.ADMIN);
-        User user1 = new User(null,"Vascaino", "9999","clau@gmail.com",20,"VASCO");
-        user1.setCategory(cc1);
+    public void testGet_ShouldReturn_200Message() throws Exception{
+        Long userId = 1L;
+
+        Mockito.when(
+                userService.findById(userId)
+        ).thenReturn(
+                new User(1L,"Claudior", "9999","claudior@gmail.com",20,"VASCO")
+        );
 
         mockMvc.perform(
-                post("/users")
-                        .contentType("application/json")
-                        .content(
-                                objectMapper.writeValueAsString(
-                                        user1
-                                )
-                        )
-        ).andExpect(status().isOk());
+                get(END_POINT_PATH + "/{code}", userId)
+        )
+                .andExpect(status().isOk())
+                .andDo(print());
+
     }
+
 }
