@@ -135,8 +135,86 @@ public class UserResourceTest {
                         jsonPath("$.rankPoints", is(25))
                 )
                 .andDo(print());
-
     }
+
+    @Test
+    public void testPut_ShouldReturn409Message() throws Exception {
+        Long userId = 1L;
+        User user = new User(null,"Claudior", "9999","claudior@gmail.com",20,"VASCO");
+        String userToRequestBody = "{\n" +
+                "        \"name\": \"È O USEER NE VIDA ?\",\n" +
+                "        \"password\": \"VASCO\",\n" +
+                "        \"email\": \"claudior@gmail.com\",\n" +
+                "        \"rankPoints\": 25,\n" +
+                "        \"bio\": \"VASCO\",\n" +
+                "        \"category\": {\n" +
+                "            \"id\" : 1,\n" +
+                "            \"categoryRule\" : \"ADMIN\"\n" +
+                "        }\n" +
+                "    }";
+
+        Mockito.when(userService.update(userId,user)).thenThrow(ResourceExistsException.class);
+        mockMvc.perform(
+                put(END_POINT_PATH + "/{code}", userId)
+                        .contentType("application/json")
+                        .content(userToRequestBody)
+        )
+                .andExpect(status().isConflict())
+                .andDo(print());
+    }
+
+    @Test
+    public void testPut_ShouldReturn404Message() throws Exception {
+        Long userId = 1L;
+        User user = new User(null,"Claudior", "9999","claudior@gmail.com",20,"VASCO");
+        String userToRequestBody = "{\n" +
+                "        \"name\": \"È O USEER NE VIDA ?\",\n" +
+                "        \"password\": \"VASCO\",\n" +
+                "        \"email\": \"claudior@gmail.com\",\n" +
+                "        \"rankPoints\": 25,\n" +
+                "        \"bio\": \"VASCO\",\n" +
+                "        \"category\": {\n" +
+                "            \"id\" : 1,\n" +
+                "            \"categoryRule\" : \"ADMIN\"\n" +
+                "        }\n" +
+                "    }";
+
+        Mockito.when(userService.update(userId,user)).thenThrow(ResourceNotFoundException.class);
+        mockMvc.perform(
+                        put(END_POINT_PATH + "/{code}", userId)
+                                .contentType("application/json")
+                                .content(userToRequestBody)
+                )
+                .andExpect(status().isNotFound())
+                .andDo(print());
+    }
+
+    @Test
+    public void testPut_ShouldReturn200Message() throws Exception {
+        Long userId = 1L;
+        User user = new User(userId,"Claudior", "9999","claudior@gmail.com",20,"VASCO");
+        String userToRequestBody = "{\n" +
+                "        \"name\": \"È O USEER NE VIDA ?\",\n" +
+                "        \"password\": \"VASCO\",\n" +
+                "        \"email\": \"claudior@gmail.com\",\n" +
+                "        \"rankPoints\": 25,\n" +
+                "        \"bio\": \"VASCO\",\n" +
+                "        \"category\": {\n" +
+                "            \"id\" : 1,\n" +
+                "            \"categoryRule\" : \"ADMIN\"\n" +
+                "        }\n" +
+                "    }";
+        Mockito.when(userService.update(userId,user)).thenReturn(user);
+
+        mockMvc.perform(
+                        put(END_POINT_PATH + "/{code}", userId)
+                                .contentType("application/json")
+                                .content(userToRequestBody)
+                )
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
 
     @Test
     public void testDelete_ShouldReturn_404Message() throws Exception{
@@ -154,7 +232,7 @@ public class UserResourceTest {
     @Test
     public void testDelete_ShouldReturn_200Message() throws Exception{
         Long userId = 1L;
-        
+
         mockMvc.perform(
                 delete(END_POINT_PATH + "/{code}", userId)
         )
