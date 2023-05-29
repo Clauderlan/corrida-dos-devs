@@ -138,5 +138,28 @@ public class UserResourceTest {
 
     }
 
+    @Test
+    public void testDelete_ShouldReturn_404Message() throws Exception{
+        Long userId = 1L;
+
+        Mockito.doThrow(ResourceNotFoundException.class).when(userService).delete(userId);
+        mockMvc.perform(
+                delete(END_POINT_PATH + "/{code}", userId)
+        )
+                .andExpect(status().isNotFound())
+                .andDo(print());
+
+    }
+
+    @Test
+    public void testDelete_ShouldReturn_200Message() throws Exception{
+        Long userId = 1L;
+        
+        mockMvc.perform(
+                delete(END_POINT_PATH + "/{code}", userId)
+        )
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
 
 }
