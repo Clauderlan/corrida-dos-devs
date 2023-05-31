@@ -8,6 +8,8 @@ Website : Learn programming basics with challenges and studying material.
 - Security authorization with authorities
 - Java Spring Test
 - Tests with MockMVC
+- Tests with JUnit
+
 ## More about
 - Java Spring Web
 - H2 Database Engine
