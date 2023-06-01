@@ -72,4 +72,18 @@ public class UserServiceTest {
         Assertions.assertEquals(userRep,user);
     }
 
+    @Test
+    public void testUpdate_ShouldReturnOk() throws Exception{
+        Long userId = 1L;
+        User userToUpdate = new User(1L,"Claudior", "9999","claudior@gmail.com",20,"VASCO");
+        User user = new User(1L,"Raphao", "9999","claudior@gmail.com",20,"VASCO");
+
+        when(userRepository.findById(userId)).thenReturn(Optional.of(user));
+        when(userRepository.save(user)).thenReturn(userToUpdate);
+
+
+        User updatedUser = userService.update(userId, userToUpdate);
+        Assertions.assertNotEquals(updatedUser.getName(), userToUpdate.getName());
+    }
+
 }
