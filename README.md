@@ -25,7 +25,8 @@ Corrida dos Devs é um site de programação que possui material de estudo para 
 - Spring Boot
 - JPA / Hibernate
 - Maven
-
+## Front end
+- https://github.com/jpclrocha/corrida-dos-devs
 ## Implantação em produção
 - Back end: Heroku
 - Banco de dados: Postgresql
