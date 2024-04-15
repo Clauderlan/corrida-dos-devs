@@ -1,8 +1,7 @@
 # Corrida dos DEVs (BACK-END)
 ![NPM](https://img.shields.io/npm/l/react)
 # Sobre o projeto
-Aprenda noções básicas de programação com desafios e material de estudo. <br>
-A aplicação consiste em uma aplicabilidade de um sistema de dominios e suas camadas lógicas, auxiliado de uma lógica SQL.
+Corrida dos Devs é um site de programação que possui material de estudo para pessoas que desejam aprender o básico sobre programação. Também temos desafios semanais para os usuários responderem e acumularem pontos para subir no ranking.
 # Implementado usando as tecnologias
 - Java Spring Security
 - Security authentication with JWT
