@@ -1,8 +1,9 @@
 # Corrida dos DEVs (BACK-END)
-Website : Learn programming basics with challenges and studying material.
-<br>
 ![NPM](https://img.shields.io/npm/l/react)
-# What i learned so far
+# Sobre o projeto
+Aprenda noções básicas de programação com desafios e material de estudo. <br>
+A aplicação consiste em uma aplicabilidade de um sistema de dominios e suas camadas lógicas, auxiliado de uma lógica SQL.
+# Implementado usando as tecnologias
 - Java Spring Security
 - Security authentication with JWT
 - Security authorization with authorities
@@ -10,16 +11,12 @@ Website : Learn programming basics with challenges and studying material.
 - Tests with MockMVC
 - Tests with JUnit
 
-## More about
+## Mais sobre
 - Java Spring Web
 - H2 Database Engine
 - JPA with PostgreSQL
 - Relationships in the database
 - Normalization in the database
-# Sobre o projeto
-Aprenda noções básicas de programação com desafios e material de estudo. <br>
-A aplicação consiste em uma aplicabilidade de um sistema de dominios e suas camadas lógicas, auxiliado de uma lógica SQL.
-
 ## Camadas lógicas
 ![Camadas lógicas](https://github.com/Clauderlan/workshop-spring3/blob/main/assets/logical%20layers.jpg)
 
